@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Headers">
+      <UniqueIdentifier>{C196CD9C-2D76-4C38-368E-D70EA2ECB299}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{2DAB880B-99B4-887C-2230-9F7C8E38947C}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\headers\Camera.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\headers\EBO.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\headers\ShaderClass.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\headers\Texture.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\headers\VAO.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\headers\VBO.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\headers\Components.h" />
+    <ClInclude Include="include\headers\Matrices.h" />
+    <ClInclude Include="include\headers\Point.h" />
+    <ClInclude Include="include\headers\Vector3D.h" />
+    <ClInclude Include="include\headers\ECS.h" />
+    <ClInclude Include="..\..\Assigment34Fixes\FirstOpenGL\include\headers\RadToDegree.h" />
+    <ClInclude Include="include\headers\RadToDegree.h" />
+    <ClInclude Include="include\headers\Game.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\camera.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ebo.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\glad.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\shaderClass.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stb.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\texture.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vao.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vbo.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ecs.cpp" />
+    <ClCompile Include="src\matrices.cpp" />
+    <ClCompile Include="src\point.cpp" />
+    <ClCompile Include="src\vector3D.cpp" />
+    <ClCompile Include="src\game.cpp" />
+  </ItemGroup>
+</Project>
