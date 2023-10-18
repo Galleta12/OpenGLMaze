@@ -16,6 +16,15 @@ class Game{
             groupCameraOrtho,
             groupTriangle
         };
+
+
+        static enum WhoISCamera{
+            MAINCAMERA,
+            FIRTPLAYERCAM,
+            OrthoCam
+        };
+
+        static WhoISCamera cameraViewState;
         
         static int Width, Height;
         static bool isRunning;

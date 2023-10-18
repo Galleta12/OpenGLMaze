@@ -34,7 +34,7 @@ class Player: public Entity{
         
         float angleRotationY=0.0f;
         
-        float mSpeed = 10.0f;
+        float mSpeed = 5.0f;
 
         Vector3D mDirection;
         Vector3D mDirectionKey;
@@ -50,6 +50,7 @@ class Player: public Entity{
         void playerRotation(float deltaTime);
         void playerPhysicsLoop();
         void handleCamLogic(float deltaTime, float angleRot);
+        
 
 
 };

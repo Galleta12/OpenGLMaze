@@ -19,7 +19,7 @@ Player::Player(Manager &mManager, Shader& shader, Texture &tex)
 
     CubeFigure *cube  = &Entity::addComponent<CubeFigure>(shader,Vector3D(1.0f,1.0f,1.0f),tex);
     
-    ray  = &Entity::addComponent<RayFigure>(shader,Vector3D(1.0f,1.0f,1.0f),tex,Vector3D(0.050f,0.050f,2.0f) );
+    ray  = &Entity::addComponent<RayFigure>(shader,Vector3D(1.0f,1.0f,1.0f),tex,Vector3D(0.050f,0.050f,2.5f) );
     
     
     
@@ -33,8 +33,21 @@ Player::Player(Manager &mManager, Shader& shader, Texture &tex)
     transformComponent->isPlayer = true;
     mPhysicsComponent = &Entity::getComponent<PhysicsComponent>();
     
-    
+
     Entity::addGroup(Game::groupColliders);
+    
+    //for the camera
+    //create a new entity
+    auto &cam(mManager.addEntity());
+    //add camera to the entity
+    cam.addComponent<CameraComponent>(Vector3D(transformComponent->position.x,1.0f,transformComponent->position.z));
+    //add a group
+    cam.addGroup(Game::groupCameras);
+
+    mFirsViewCamera = &cam.getComponent<CameraComponent>();
+
+    setUpFirstViewCamera();
+
 }
 
 Player::~Player()
@@ -43,6 +56,9 @@ Player::~Player()
 
 void Player::SetUpComponets()
 {
+
+
+
 }
 
 void Player::update(float deltaTime)
@@ -63,6 +79,18 @@ void Player::renderFirstViewCamera()
 
 void Player::setUpFirstViewCamera()
 {
+       
+    Vector3D initialCenter = mFirsViewCamera->eyePosition + Vector3D(0.0f,0.0f,-1.0f);
+    
+    
+    mFirsViewCamera->setLooKViewCamera(mFirsViewCamera->eyePosition,initialCenter,Vector3D::UP());
+    //for the shaders they are done on the draw using this data
+
+    //for now the aspct ration is
+    float aspect =  static_cast<float>(Game::Width / Game::Height);
+    
+    mFirsViewCamera->setPerspectiveProjection(RadToDegree::ToRadians(100.0f),aspect, 0.1f,100.0f);
+
 }
 
 void Player::handlePlayerMoves(float deltaTime)
@@ -70,6 +98,7 @@ void Player::handlePlayerMoves(float deltaTime)
     
     playerTraslation(deltaTime);
     playerRotation(deltaTime);
+
 
 }
 
@@ -84,11 +113,11 @@ void Player::playerTraslation(float deltaTime)
     Vector3D keyDir(0.0f, 0.0f, 0.0f);
 
     if (glfwGetKey(Game::window, GLFW_KEY_UP) == GLFW_PRESS) {
-        keyDir += Vector3D(0.0f, 0.0f, 1.0f);
+        keyDir += Vector3D(0.0f, 0.0f, -1.0f);
     }
 
     if (glfwGetKey(Game::window, GLFW_KEY_DOWN) == GLFW_PRESS) {
-        keyDir += Vector3D(0.0f, 0.0f, -1.0f);
+        keyDir += Vector3D(0.0f, 0.0f, 1.0f);
 
     }
 
@@ -110,7 +139,10 @@ void Player::playerTraslation(float deltaTime)
     
     
     
-    ray->TraslateFigure(transformComponent->position);
+    ray->TraslateFigure(transformComponent->position + Vector3D(0.0f,0.3f,0.0f));
+    
+    //mFirsViewCamera->getViewMatrixPointer()->walkYAxis(keyDir.x * adjustedSpeed, keyDir.z * adjustedSpeed);
+    mFirsViewCamera->getViewMatrixPointer()->setEyePos(transformComponent->position +  Vector3D::UP());
 
 
 
@@ -121,7 +153,7 @@ void Player::playerRotation(float deltaTime)
 {
 
     
-    
+    float angleRot = RadToDegree::PI * deltaTime;
     
     
     
@@ -130,6 +162,7 @@ void Player::playerRotation(float deltaTime)
         angleRotationY -= RadToDegree::PI * deltaTime;
         
         transformComponent->OrientationVector = Vector3D::Rotation(transformComponent->OrientationVector,Vector3D::UP(),angleRotationY);        
+        mFirsViewCamera->getViewMatrixPointer()->TurnFirstCamView(angleRot);
     
     }
 
@@ -137,7 +170,8 @@ void Player::playerRotation(float deltaTime)
         
         angleRotationY += RadToDegree::PI * deltaTime;
         transformComponent->OrientationVector = Vector3D::Rotation(transformComponent->OrientationVector,Vector3D::UP(),angleRotationY);
-    
+        mFirsViewCamera->getViewMatrixPointer()->TurnFirstCamView(-angleRot);
+
     }
     
    

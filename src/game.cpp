@@ -28,12 +28,12 @@ bool Game::isRunning = false;
         
 GLFWwindow* Game::window = nullptr;
 
+Game::WhoISCamera Game::cameraViewState = Game::WhoISCamera::MAINCAMERA;
+
 Shader *shaderProgram = nullptr;
 Shader *lightShader = nullptr;
 Camera *camera = nullptr;
-VAO *VAO1 = nullptr;
-VBO *VBO1 = nullptr;
-EBO *EBO1 = nullptr;
+
 
 VAO *lightVAO = nullptr;
 
@@ -54,7 +54,6 @@ Manager manager;
 
 auto &triangle(manager.addEntity());
 auto &triangleRotate(manager.addEntity());
-
 auto &randomCube(manager.addEntity());
 
 
@@ -152,9 +151,26 @@ void Game::init(const char *title, int posX, int posY, int width, int height, bo
 void Game::handleEvents()
 {
 
+	CameraComponent *firstViewCamera = mainPlayer->getCamaraEntityPlayer();
+    //ppointet ro the orthocamera
     if(glfwWindowShouldClose(window)){
         isRunning = false;
     }
+	
+	if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS){
+		
+		cameraViewState = WhoISCamera::MAINCAMERA;
+		firstViewCamera->shouldDraw = false;
+		mainCamera->getCameraComponent()->shouldDraw = true;
+	}
+	
+	if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS){
+		
+		cameraViewState = WhoISCamera::FIRTPLAYERCAM;
+		firstViewCamera->shouldDraw = true;
+		mainCamera->getCameraComponent()->shouldDraw = false;
+	}
+
 
 }
 
