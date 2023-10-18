@@ -47,12 +47,17 @@ class Game{
         bool running() { return isRunning; }
 
 
+        int orthowViewWidht, orthowViewHeight=0;
 
     private:
+
 
         void physicsLoop(float deltaTime);
         void setUpShaderAndBuffers();
         void setUpEntities();
+        void handleOrthoCameraLogic();
+        void drawFirstViewPort();
+        void drawSecondViewPort();
         
 
 

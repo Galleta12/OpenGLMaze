@@ -55,6 +55,7 @@ Manager manager;
 auto &triangle(manager.addEntity());
 auto &triangleRotate(manager.addEntity());
 auto &randomCube(manager.addEntity());
+auto &cameraOrthoEntity(manager.addEntity());
 
 
 
@@ -119,6 +120,9 @@ void Game::init(const char *title, int posX, int posY, int width, int height, bo
     Width = width;
     Height = height;
 
+	orthowViewWidht = width/2;
+	orthowViewHeight = height/2;
+
     // Create a GLFWwindow object of 1500 by 750 pixels, naming it "YoutubeOpenGL"
 	window = glfwCreateWindow(Width, height, title, NULL, NULL);
     // Error check if the window fails to create
@@ -148,6 +152,11 @@ void Game::init(const char *title, int posX, int posY, int width, int height, bo
 
 }
 
+auto& camerasWorld(manager.getGroup(Game::groupCameras));
+auto& triangleWorld(manager.getGroup(Game::groupTriangle));
+auto& collidersWorld(manager.getGroup(Game::groupColliders));
+auto& orthoCamerasWorld(manager.getGroup(Game::groupCameraOrtho));
+
 void Game::handleEvents()
 {
 
@@ -174,14 +183,11 @@ void Game::handleEvents()
 
 }
 
-auto& camerasWorld(manager.getGroup(Game::groupCameras));
-auto& triangleWorld(manager.getGroup(Game::groupTriangle));
-auto& collidersWorld(manager.getGroup(Game::groupColliders));
 
 void Game::update(float deltaTime)
 {
     
-	
+	handleOrthoCameraLogic();
 	manager.refresh();
     manager.update(deltaTime);
 	
@@ -194,6 +200,8 @@ void Game::update(float deltaTime)
 	
 	tra->Scale(Vector3D(1.0f,5.0f,1.0f));
 
+	cube->Scale(cube->getMainFigureComponent()->scaleFactorFigure);
+
 
 	physicsLoop(deltaTime);
 
@@ -204,52 +212,21 @@ void Game::display()
 {
     // Enables the Depth Buffer
 	glEnable(GL_DEPTH_TEST);
-    glViewport(0, 0, Width, Height);
-    // Specify the color of the background
 	glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
+    
+	glViewport(0, 0, Width, Height);
+    // Specify the color of the background
 	// Clean the back buffer and depth buffer
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    // Tells OpenGL which Shader Program we want to use
-	shaderProgram->Activate();
-	// Exports the camera Position to the Fragment Shader for specular lighting
+    
+	drawFirstViewPort();
 	
-	Vector3D pos = mainCamera->getCameraComponent()->eyePosition;
-
-	shaderProgram->set_eye_position(pos.x, pos.y, pos.z);
-	
-	for(auto& c : camerasWorld){
-       c->draw(*shaderProgram); 
-    }
-	
-		
-	for(auto& t : triangleWorld){
-       t->draw(*shaderProgram); 
-    }
-	
-	for(auto& co : collidersWorld){
-       co->draw(*shaderProgram); 
-    }
-	
-	
-	// Tells OpenGL which Shader Program we want to use
-	
-	
-	lightShader->Activate();
-	
-	// Export the camMatrix to the Vertex Shader of the light cube
-	
-	//camera->Matrix(*lightShader, "camMatrix");
-	lightVAO->Bind();
-	
-	for(auto& c : camerasWorld){
-        c->draw(*lightShader); 
-    }
-	
-	// Bind the VAO so OpenGL knows to use it
-	
-	// Draw primitives, number of indices, datatype of indices, index of indices
-	glDrawElements(GL_TRIANGLES, sizeof(lightIndices) / sizeof(int), GL_UNSIGNED_INT, 0);
+	//second viewport
+	glViewport(orthowViewWidht, orthowViewHeight, orthowViewWidht, orthowViewHeight);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClear(GL_DEPTH_BUFFER_BIT);
+	drawSecondViewPort();
 
 
     // Swap the back buffer with the front buffer
@@ -303,10 +280,6 @@ void Game::physicsLoop(float deltaTime)
                 tra1->OnCollisionEnter(tra1,tra2,depth,normalCollision);
                 tra2->OnCollisionEnter(tra2,tra1,depth,normalCollision);
 				
-				//std::cout << "collision" << std::endl;
-				//mainPlayer->getCamaraEntityPlayer()->getViewMatrixPointer()->slide(0.0f,0.0f,0.0f);
-				//tra1->position -= normalCollision*depth;
-                //mainPlayer->OnCollisionPlayer(tra2,normalCollision,depth, mDeltaTime)
                 
             }
 
@@ -355,7 +328,7 @@ void Game::setUpShaderAndBuffers()
 
 	//random cube test
 
-	CubeFigure *cube = &randomCube.addComponent<CubeFigure>(*shaderProgram,Vector3D(1.0f,1.0f,1.0f), *brickTex);
+	CubeFigure *cube = &randomCube.addComponent<CubeFigure>(*shaderProgram,Vector3D(2.0f,2.0f,2.0f), *brickTex);
 	
 	randomCube.addComponent<TransformComponent>(Vector3D(2.0f,0.0f,0.0f),true,cube);
 	
@@ -420,6 +393,140 @@ void Game::setUpEntities()
 
 
 	mainCamera = dynamic_cast<MainCamera*>(&manager.addEntityClass<MainCamera>());
+
+	
+	//ortho camera
+	cameraOrthoEntity.addComponent<CameraComponent>(Vector3D(1.0f,5.0f,1.0f));
+    
+    CameraComponent *orthoCam = &cameraOrthoEntity.getComponent<CameraComponent>();
+
+    orthoCam->shouldDraw = true;
+    cameraOrthoEntity.addGroup(groupCameraOrtho);
+	
+	float aspect =  static_cast<int>(orthowViewWidht/ orthowViewHeight);
+
+    orthoCam->setLooKViewCamera(Vector3D(1.0f,5.0f,1.0f), Vector3D(0.0f,0.0f,0.0f), Vector3D::UP());
+
+    orthoCam->setOrthoGraphicProjection(-7.0f* aspect, 7.0f * aspect, -7.0f, 7.0f, 0.00001f, 100.0f);
+
+
+
+
+
+}
+
+void Game::handleOrthoCameraLogic()
+{
+	
+    TransformComponent *p = &mainPlayer->getComponent<TransformComponent>();
+
+    
+    
+    Vector3D posPlayer(p->position.x,cameraOrthoEntity.getComponent<CameraComponent>().getViewMatrixPointer()->getVectorEye().y,p->position.z);
+    
+    cameraOrthoEntity.getComponent<CameraComponent>().getViewMatrixPointer()->setEyePos(posPlayer);
+
+
+
+}
+
+void Game::drawFirstViewPort()
+{
+
+	// Tells OpenGL which Shader Program we want to use
+	shaderProgram->Activate();
+	// Exports the camera Position to the Fragment Shader for specular lighting
+	
+	Vector3D pos = mainCamera->getCameraComponent()->eyePosition;
+
+	shaderProgram->set_eye_position(pos.x, pos.y, pos.z);
+	
+	for(auto& c : camerasWorld){
+       c->draw(*shaderProgram); 
+    }
+	
+		
+	for(auto& t : triangleWorld){
+       t->draw(*shaderProgram); 
+    }
+	
+	for(auto& co : collidersWorld){
+       co->draw(*shaderProgram); 
+    }
+	
+	
+	// Tells OpenGL which Shader Program we want to use
+	
+	lightShader->Activate();
+	
+	// Export the camMatrix to the Vertex Shader of the light cube
+	
+	//camera->Matrix(*lightShader, "camMatrix");
+	lightVAO->Bind();
+	
+	for(auto& c : camerasWorld){
+        c->draw(*lightShader); 
+    }
+	
+	// Bind the VAO so OpenGL knows to use it
+	
+	// Draw primitives, number of indices, datatype of indices, index of indices
+	glDrawElements(GL_TRIANGLES, sizeof(lightIndices) / sizeof(int), GL_UNSIGNED_INT, 0);
+
+
+
+}
+
+void Game::drawSecondViewPort()
+{
+
+
+
+	// Tells OpenGL which Shader Program we want to use
+	shaderProgram->Activate();
+	// Exports the camera Position to the Fragment Shader for specular lighting
+	
+	//maybe
+	// Vector3D pos = mainCamera->getCameraComponent()->eyePosition;
+
+	// shaderProgram->set_eye_position(pos.x, pos.y, pos.z);
+	
+	for(auto& o : orthoCamerasWorld){
+        o->draw(*shaderProgram);
+        
+    }
+		
+	for(auto& t : triangleWorld){
+       t->draw(*shaderProgram); 
+    }
+	
+	for(auto& co : collidersWorld){
+       co->draw(*shaderProgram); 
+    }
+	
+	
+	// Tells OpenGL which Shader Program we want to use
+	
+	lightShader->Activate();
+	
+	// Export the camMatrix to the Vertex Shader of the light cube
+	
+	//camera->Matrix(*lightShader, "camMatrix");
+	lightVAO->Bind();
+	
+	for(auto& o : orthoCamerasWorld){
+        o->draw(*lightShader);
+        
+    }
+	
+	// Bind the VAO so OpenGL knows to use it
+	
+	// Draw primitives, number of indices, datatype of indices, index of indices
+	glDrawElements(GL_TRIANGLES, sizeof(lightIndices) / sizeof(int), GL_UNSIGNED_INT, 0);
+
+
+
+
 
 
 }
