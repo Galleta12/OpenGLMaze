@@ -377,13 +377,13 @@ void Game::setUpEntities()
 
 	
 	
-	lightShader->Activate();
+	lightShader->use();
 	
 	glUniformMatrix4fv(glGetUniformLocation(lightShader->ID, "model"), 1, GL_FALSE, glm::value_ptr(lightModel));
 	glUniform4f(glGetUniformLocation(lightShader->ID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
 	
 	
-	shaderProgram->Activate();
+	shaderProgram->use();
 	
 	//glUniformMatrix4fv(glGetUniformLocation(shaderProgram->ID, "model"), 1, GL_FALSE, glm::value_ptr(pyramidModel));
 	//shaderProgram->set_model_matrix(modelMatrix->getMatrix());
@@ -434,7 +434,7 @@ void Game::drawFirstViewPort()
 {
 
 	// Tells OpenGL which Shader Program we want to use
-	shaderProgram->Activate();
+	shaderProgram->use();
 	// Exports the camera Position to the Fragment Shader for specular lighting
 	
 	Vector3D pos = mainCamera->getCameraComponent()->eyePosition;
@@ -457,7 +457,7 @@ void Game::drawFirstViewPort()
 	
 	// Tells OpenGL which Shader Program we want to use
 	
-	lightShader->Activate();
+	lightShader->use();
 	
 	// Export the camMatrix to the Vertex Shader of the light cube
 	
@@ -483,7 +483,7 @@ void Game::drawSecondViewPort()
 
 
 	// Tells OpenGL which Shader Program we want to use
-	shaderProgram->Activate();
+	shaderProgram->use();
 	// Exports the camera Position to the Fragment Shader for specular lighting
 	
 	//maybe
@@ -507,7 +507,7 @@ void Game::drawSecondViewPort()
 	
 	// Tells OpenGL which Shader Program we want to use
 	
-	lightShader->Activate();
+	lightShader->use();
 	
 	// Export the camMatrix to the Vertex Shader of the light cube
 	
