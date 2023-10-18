@@ -25,12 +25,13 @@ class  FigureComponent : public Component{
         bool  isDraw = true;
         
         FigureComponent(float red, float green, float blue, Shader& shader, Vector3D scale);
-        FigureComponent(Shader& shader, Vector3D scale);
+        FigureComponent(Shader& shader, Vector3D scale, Texture &tex);
         virtual ~FigureComponent(){
             VAO1->Delete();
             VBO1->Delete();
             EBO1->Delete();
-            texture->Delete();
+            //texture->Delete();
+            //delete texture;
         }
         
         void update(float deltaTime) override;
@@ -38,7 +39,7 @@ class  FigureComponent : public Component{
         void draw(Shader& shader)override;
       
         void setVerticesBuffer(Shader& shader,GLfloat *verticesArray ,  GLuint *indicesArray);
-        void setUpTextureAndModelMatrx(Shader& shader, const char* image);
+        void setUpTextureAndModelMatrx(Shader& shader);
         
         //each figure handle their onw draw object
         virtual void drawObject(){}
@@ -75,7 +76,7 @@ class  FigureComponent : public Component{
         
         std::unique_ptr<EBO>EBO1;
 
-        std::unique_ptr<Texture> texture;
+        Texture *texture;
 
        
 

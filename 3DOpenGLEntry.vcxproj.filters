@@ -41,6 +41,7 @@
     <ClInclude Include="include\headers\TrianguleFigure.h" />
     <ClInclude Include="include\headers\TransformComponent.h" />
     <ClInclude Include="include\headers\CubeFigure.h" />
+    <ClInclude Include="include\headers\Player.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp">
@@ -81,6 +82,7 @@
     <ClCompile Include="src\trianguleFigure.cpp" />
     <ClCompile Include="src\transformComponent.cpp" />
     <ClCompile Include="src\cubeFigure.cpp" />
+    <ClCompile Include="src\player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="RotateTriangle.png" />

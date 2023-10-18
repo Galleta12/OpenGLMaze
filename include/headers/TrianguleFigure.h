@@ -9,7 +9,7 @@ class TrianguleFigure: public FigureComponent{
 
     public:
         
-        TrianguleFigure(Shader& shader, Vector3D scale, const char* image);
+        TrianguleFigure(Shader& shader, Vector3D scale,Texture &tex);
         ~TrianguleFigure();
 
         void init() override;

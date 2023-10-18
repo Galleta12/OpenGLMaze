@@ -40,6 +40,7 @@ VBO *lightVBO = nullptr;
 EBO *lightEBO = nullptr;
 
 Texture *brickTex = nullptr;
+Texture *rotateTex = nullptr;
 
 ModelMatrix *modelMatrix = nullptr;
 
@@ -229,13 +230,14 @@ void Game::display()
 	// Export the camMatrix to the Vertex Shader of the light cube
 	
 	//camera->Matrix(*lightShader, "camMatrix");
+	lightVAO->Bind();
+	
 	for(auto& c : camerasWorld){
         c->draw(*lightShader); 
     }
 	
 	// Bind the VAO so OpenGL knows to use it
 	
-	lightVAO->Bind();
 	// Draw primitives, number of indices, datatype of indices, index of indices
 	glDrawElements(GL_TRIANGLES, sizeof(lightIndices) / sizeof(int), GL_UNSIGNED_INT, 0);
 
@@ -254,7 +256,8 @@ void Game::clean()
 	lightVBO->Delete();
 	lightEBO->Delete();
 	lightShader->Delete();
-
+	brickTex->Delete();
+	rotateTex->Delete();
 
     // Delete window before ending the program
 	glfwDestroyWindow(window);
@@ -271,12 +274,26 @@ void Game::clean()
 void Game::setUpShaderAndBuffers()
 {
 
-    
+    //generate the texture
+	
+	
+	
 	// Generates Shader object using shaders default.vert and default.frag
 	shaderProgram = new Shader("default.vert", "default.frag");
 
+	//brick tex
+	brickTex = new Texture("brick.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+    
+    brickTex->texUnit(*shaderProgram, "tex0", 0);
+	
+	//rotate tex
+	rotateTex = new Texture("RotateTriangle.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+    
+    rotateTex->texUnit(*shaderProgram, "tex0", 0);
 
-	TrianguleFigure *tri = &triangle.addComponent<TrianguleFigure>(*shaderProgram,Vector3D(1.0f,1.0f,1.0f), "RotateTriangle.png");
+	
+	//initialize entities
+	TrianguleFigure *tri = &triangle.addComponent<TrianguleFigure>(*shaderProgram,Vector3D(1.0f,1.0f,1.0f), *rotateTex);
 	
 	triangle.addComponent<TransformComponent>(Vector3D(2.0f,0.0f,-2.0f),true,tri);
 	
@@ -284,7 +301,7 @@ void Game::setUpShaderAndBuffers()
 
 	//second triangle
 
-	TrianguleFigure *tr2 = &triangleRotate.addComponent<TrianguleFigure>(*shaderProgram,Vector3D(1.0f,1.0f,1.0f), "RotateTriangle.png");
+	TrianguleFigure *tr2 = &triangleRotate.addComponent<TrianguleFigure>(*shaderProgram,Vector3D(1.0f,1.0f,1.0f), *rotateTex);
 	
 	triangleRotate.addComponent<TransformComponent>(Vector3D(-2.0f,1.0f,0.0f),true,tr2);
 	
@@ -292,7 +309,7 @@ void Game::setUpShaderAndBuffers()
 
 	//random cube test
 
-	CubeFigure *cube = &randomCube.addComponent<CubeFigure>(*shaderProgram,Vector3D(1.0f,1.0f,1.0f), "brick.png");
+	CubeFigure *cube = &randomCube.addComponent<CubeFigure>(*shaderProgram,Vector3D(1.0f,1.0f,1.0f), *brickTex);
 	
 	randomCube.addComponent<TransformComponent>(Vector3D(1.0f,1.0f,1.0f),true,cube);
 	

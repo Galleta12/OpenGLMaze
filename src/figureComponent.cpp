@@ -10,11 +10,12 @@ FigureComponent::FigureComponent(float red, float green, float blue, Shader &sha
 
 }
 
-FigureComponent::FigureComponent( Shader &shader, Vector3D scale)
+FigureComponent::FigureComponent(Shader &shader, Vector3D scale, Texture &tex)
 {
     //at the start eh modelmatrix is the identity
     mModelMatrix->loadIdentity();
     scaleFactorFigure = scale;
+    texture = &tex;
 
 }
 
@@ -92,7 +93,7 @@ void FigureComponent::setVerticesBuffer(Shader& shader,GLfloat *verticesArray , 
 	EBO1->Unbind();
 
 }
-void FigureComponent::setUpTextureAndModelMatrx(Shader &shader, const char *image)
+void FigureComponent::setUpTextureAndModelMatrx(Shader &shader)
 {
    
     
@@ -103,9 +104,9 @@ void FigureComponent::setUpTextureAndModelMatrx(Shader &shader, const char *imag
     //set up the model matrix in the shader;
     shader.set_model_matrix(mModelMatrix->getMatrix());
 
-    texture = std::make_unique<Texture>(image, GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+    //texture = std::make_unique<Texture>(image, GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
     
-    texture->texUnit(shader, "tex0", 0);
+    //texture->texUnit(shader, "tex0", 0);
 
 }
 

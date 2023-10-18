@@ -9,7 +9,7 @@ class CubeFigure : public FigureComponent{
 
         
         public:
-            CubeFigure(Shader& shader, Vector3D scale, const char* image);
+            CubeFigure(Shader& shader, Vector3D scale,Texture &tex);
             ~CubeFigure();
 
             void init() override;

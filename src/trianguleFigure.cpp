@@ -1,9 +1,9 @@
 #include "TrianguleFigure.h"
-
+#include "Texture.h"
    
 
-TrianguleFigure::TrianguleFigure(Shader &shader, Vector3D scale, const char* image)
-:FigureComponent(shader,scale)
+TrianguleFigure::TrianguleFigure(Shader &shader, Vector3D scale, Texture &tex)
+:FigureComponent(shader,scale,tex)
 {
  
      GLfloat verticesTriangle[] =
@@ -48,7 +48,7 @@ TrianguleFigure::TrianguleFigure(Shader &shader, Vector3D scale, const char* ima
 
     setVerticesBuffer(shader,verticesTriangle, indicesTriangle);
     
-    setUpTextureAndModelMatrx(shader, image);
+    setUpTextureAndModelMatrx(shader);
 }
 
 

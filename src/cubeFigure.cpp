@@ -1,8 +1,8 @@
 #include "CubeFigure.h"
 
 
-CubeFigure::CubeFigure(Shader& shader, Vector3D scale, const char* image)
-:FigureComponent(shader,scale)
+CubeFigure::CubeFigure(Shader& shader, Vector3D scale,Texture &tex)
+:FigureComponent(shader,scale,tex)
 {
     GLfloat verticesCube[] = {
       // Position                // Colors                // Texture Coordinates    // Normals
@@ -76,7 +76,7 @@ CubeFigure::CubeFigure(Shader& shader, Vector3D scale, const char* image)
     
     setVerticesBuffer(shader,verticesCube, indicesCube);
     
-    setUpTextureAndModelMatrx(shader, image);
+    setUpTextureAndModelMatrx(shader);
 
 
 }
