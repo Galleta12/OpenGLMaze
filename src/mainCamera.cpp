@@ -186,7 +186,7 @@ void MainCamera::RotationCamera(float deltaTime)
 		
 		mCameraComponent->orientation = Vector3D::Rotation(mCameraComponent->orientation,Vector3D::UP(),RadToDegree::ToRadians(-rotY));
 
-
+        //std::cout << mCameraComponent->orientation << std::endl;
 
 		// Sets mouse cursor to the middle of the screen so that it doesn't end up roaming around
 		glfwSetCursorPos(Game::window, (Game::Width / 2), (Game::Height / 2));

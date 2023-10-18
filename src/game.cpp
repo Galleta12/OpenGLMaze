@@ -19,6 +19,7 @@
 #include "TrianguleFigure.h"
 #include "CubeFigure.h"
 #include "RayFigure.h"
+#include "Player.h"
 //initialize static variables
 int Game::Width = 0;
 int Game::Height = 0;
@@ -46,6 +47,7 @@ Texture *rotateTex = nullptr;
 ModelMatrix *modelMatrix = nullptr;
 
 MainCamera* mainCamera;
+Player* mainPlayer;
 
 Manager manager;
 
@@ -162,10 +164,7 @@ auto& collidersWorld(manager.getGroup(Game::groupColliders));
 void Game::update(float deltaTime)
 {
     
-	// // Handles camera inputs
-	//camera->Inputs(window, deltaTime);
-	// // Updates and exports the camera matrix to the Vertex Shader
-	//camera->updateMatrix(45.0f, 0.1f, 100.0f);
+	
 	manager.refresh();
     manager.update(deltaTime);
 	
@@ -175,13 +174,11 @@ void Game::update(float deltaTime)
 
 	TransformComponent *cube = &randomCube.getComponent<TransformComponent>(); 
 	
-	tra->Traslation(tra->position);
 	
 	tra->Scale(Vector3D(1.0f,5.0f,1.0f));
 
-	tr2->Traslation(tr2->position);
 
-	cube->Traslation(Vector3D(-5.0f,3.0f,0.0f));
+	physicsLoop(deltaTime);
 
 
 }
@@ -270,7 +267,43 @@ void Game::clean()
 
 }
 
+void Game::physicsLoop(float deltaTime)
+{
 
+	//all of this must have a collider component
+    for (int i=0; i < collidersWorld.size()-1; i++)
+	{
+        PhysicsComponent *physics1 = &collidersWorld[i]->getComponent<PhysicsComponent>();
+        TransformComponent *tra1 = &collidersWorld[i]->getComponent<TransformComponent>();
+
+        for(int j=i+1; j <collidersWorld.size();j++){
+            PhysicsComponent *physics2 = &collidersWorld[j]->getComponent<PhysicsComponent>();
+            TransformComponent *tra2 = &collidersWorld[j]->getComponent<TransformComponent>();
+    
+            //check collision
+            float depth = std::numeric_limits<float>::infinity();; 
+            Vector3D normalCollision;
+            
+            bool isIntersection = physics1->AABBCOLLISION(tra2,depth, normalCollision);  
+        
+			if(isIntersection){
+                
+                tra1->OnCollisionEnter(tra1,tra2,depth,normalCollision);
+                tra2->OnCollisionEnter(tra2,tra1,depth,normalCollision);
+				
+				//std::cout << "collision" << std::endl;
+				//mainPlayer->getCamaraEntityPlayer()->getViewMatrixPointer()->slide(0.0f,0.0f,0.0f);
+				//tra1->position -= normalCollision*depth;
+                //mainPlayer->OnCollisionPlayer(tra2,normalCollision,depth, mDeltaTime)
+                
+            }
+
+        
+        }
+    
+    } 
+
+}
 
 void Game::setUpShaderAndBuffers()
 {
@@ -312,14 +345,16 @@ void Game::setUpShaderAndBuffers()
 
 	CubeFigure *cube = &randomCube.addComponent<CubeFigure>(*shaderProgram,Vector3D(1.0f,1.0f,1.0f), *brickTex);
 	
-	randomCube.addComponent<TransformComponent>(Vector3D(1.0f,1.0f,1.0f),true,cube);
+	randomCube.addComponent<TransformComponent>(Vector3D(2.0f,0.0f,0.0f),true,cube);
 	
-	randomCube.addComponent<RayFigure>(*shaderProgram,Vector3D(1.0f,1.0f,1.0f), *rotateTex, Vector3D(0.050f,0.050f,-1.0f));
+	randomCube.addComponent<PhysicsComponent>();
+
+
 	
 	randomCube.addGroup(groupColliders);
 	
 	
-	
+	mainPlayer = dynamic_cast<Player*>(&manager.addEntityClass<Player>(*shaderProgram,*brickTex));
 	
 	//randomCube
 

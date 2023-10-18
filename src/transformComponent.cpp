@@ -1,6 +1,7 @@
 #include "TransformComponent.h"
 #include "TrianguleFigure.h"
 #include "CubeFigure.h"
+#include "RayFigure.h"
 #include <typeinfo>
 
 TransformComponent::TransformComponent(Vector3D pos, bool shouldDrawBasis, const FigureComponent *figure)
@@ -22,6 +23,8 @@ TransformComponent::TransformComponent(Vector3D pos, bool shouldDrawBasis, const
 
 }
 
+
+
 TransformComponent::~TransformComponent()
 {
 }
@@ -37,12 +40,13 @@ void TransformComponent::init()
 
     }
 
+
 }
 
 void TransformComponent::update(float deltaTime)
 {
-
-
+    //we always traslate to the current position
+    Traslation(position);
 
 }
 
@@ -81,11 +85,27 @@ void TransformComponent::RotationZ(float angle)
 
 void TransformComponent::RotationAboutAxis(Vector3D n, float angle)
 {
+    
     mainFigureComponent->RotationAboutAxisFigure(n,angle);
+
 }
 
-void TransformComponent::OnCollisionEnter(Entity *en1, Entity *en2, float depth, Vector3D normalCollision)
+void TransformComponent::OnCollisionEnter(TransformComponent *en1, TransformComponent *en2, float depth, Vector3D normalCollision)
 {
 
+    if(en1->isPlayer == false) return;
+
+    // std::cout << "normal" << normalCollision << std::endl;
+    // std::cout << "depth" << depth << std::endl;
+
+    Vector3D newPos = normalCollision * depth;
+    
+
+    std::cout << "depth" << newPos << std::endl;
+
+    // en1->position += newPos;
+
+    position += newPos;
 
 }
+

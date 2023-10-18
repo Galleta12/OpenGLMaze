@@ -23,7 +23,7 @@ FigureComponent::FigureComponent(Shader &shader, Vector3D scale, Texture &tex)
 void FigureComponent::update(float deltaTime)
 {
 
-     //this should be a copy this means that all the changes done
+    //this should be a copy this means that all the changes done
     //should not affect the modelMatrix. only affect the copyMatrix
     copyMatrix = mModelMatrix->getModelMatrix();
     //load identity?
@@ -49,7 +49,6 @@ void FigureComponent::draw(Shader &shader)
    
     //mModelMatrix->traslation(Vector3D(2.0f,2.0f,0.0f));
 
-
     shader.set_model_matrix(mModelMatrix->getMatrix());
     
     //draw object
@@ -57,7 +56,6 @@ void FigureComponent::draw(Shader &shader)
     drawObject();
     
 	//glDrawElements(GL_TRIANGLES, sizeof(indicesArray) / sizeof(int), GL_UNSIGNED_INT, 0);
-    
     
     mModelMatrix->popMatrix();
 

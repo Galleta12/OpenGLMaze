@@ -37,8 +37,11 @@ class Game{
         //check if the game is running
         bool running() { return isRunning; }
 
+
+
     private:
 
+        void physicsLoop(float deltaTime);
         void setUpShaderAndBuffers();
         void setUpEntities();
         

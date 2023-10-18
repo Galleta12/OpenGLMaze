@@ -317,6 +317,12 @@ Vector3D Vector3D::FORWARD()
     return Vector3D(0.0f,0.0f,1.0f);
 }
 
+Vector3D Vector3D::INVERT(const Vector3D & vec)
+{
+    return Vector3D(-vec.x,-vec.y,-vec.z);
+
+}
+
 float Vector3D::DistanceVec(const Vector3D &v1, const Vector3D &v2)
 {
     

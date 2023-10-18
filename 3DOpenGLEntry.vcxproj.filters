@@ -43,6 +43,7 @@
     <ClInclude Include="include\headers\CubeFigure.h" />
     <ClInclude Include="include\headers\Player.h" />
     <ClInclude Include="include\headers\RayFigure.h" />
+    <ClInclude Include="include\headers\Physics.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp">
@@ -85,6 +86,7 @@
     <ClCompile Include="src\cubeFigure.cpp" />
     <ClCompile Include="src\player.cpp" />
     <ClCompile Include="src\rayFigure.cpp" />
+    <ClCompile Include="src\physics.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="RotateTriangle.png" />

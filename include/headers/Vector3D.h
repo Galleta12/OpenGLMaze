@@ -73,6 +73,8 @@ class Vector3D{
         static Vector3D UP();
         static Vector3D RIGHT();
         static Vector3D FORWARD();
+        
+        static Vector3D INVERT(const Vector3D &vec);
 
         
         static float DistanceVec(const Vector3D& v1, const Vector3D& v2);
