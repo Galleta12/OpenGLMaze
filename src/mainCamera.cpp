@@ -69,7 +69,8 @@ void MainCamera::ApplyNewPosition(float deltaTime)
     mCameraComponent->setLooKViewCamera(mCameraComponent->eyePosition,newCenter,Vector3D::UP());
     float aspect =  static_cast<float>(Game::Width / Game::Height);
     
-    mCameraComponent->setPerspectiveProjection(RadToDegree::ToRadians(45.0f),aspect, 0.1f,100.0f);
+    //mCameraComponent->setPerspectiveProjection(RadToDegree::ToRadians(45.0f),aspect, 0.1f,100.0f);
+    mCameraComponent->setPerspectiveProjection(RadToDegree::ToRadians(90.0f),aspect, 0.1f,100.0f);
 
 }
 

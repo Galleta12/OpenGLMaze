@@ -192,6 +192,7 @@
     <ClInclude Include="include\headers\Player.h" />
     <ClInclude Include="include\headers\Point.h" />
     <ClInclude Include="include\headers\RadToDegree.h" />
+    <ClInclude Include="include\headers\RayFigure.h" />
     <ClInclude Include="include\headers\ShaderClass.h" />
     <ClInclude Include="include\headers\Texture.h" />
     <ClInclude Include="include\headers\TransformComponent.h" />
@@ -214,6 +215,7 @@
     <ClCompile Include="src\matrices.cpp" />
     <ClCompile Include="src\player.cpp" />
     <ClCompile Include="src\point.cpp" />
+    <ClCompile Include="src\rayFigure.cpp" />
     <ClCompile Include="src\shaderClass.cpp" />
     <ClCompile Include="src\stb.cpp" />
     <ClCompile Include="src\texture.cpp" />
@@ -224,6 +226,7 @@
     <ClCompile Include="src\vector3D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="planks.png" />
     <Image Include="RotateTriangle.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -42,6 +42,7 @@
     <ClInclude Include="include\headers\TransformComponent.h" />
     <ClInclude Include="include\headers\CubeFigure.h" />
     <ClInclude Include="include\headers\Player.h" />
+    <ClInclude Include="include\headers\RayFigure.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp">
@@ -83,8 +84,10 @@
     <ClCompile Include="src\transformComponent.cpp" />
     <ClCompile Include="src\cubeFigure.cpp" />
     <ClCompile Include="src\player.cpp" />
+    <ClCompile Include="src\rayFigure.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="RotateTriangle.png" />
+    <Image Include="planks.png" />
   </ItemGroup>
 </Project>

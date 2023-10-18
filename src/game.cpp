@@ -18,6 +18,7 @@
 #include "MainCamera.h"
 #include "TrianguleFigure.h"
 #include "CubeFigure.h"
+#include "RayFigure.h"
 //initialize static variables
 int Game::Width = 0;
 int Game::Height = 0;
@@ -180,7 +181,7 @@ void Game::update(float deltaTime)
 
 	tr2->Traslation(tr2->position);
 
-	//cube->Traslation(Vector3D(-5.0f,1.0f,0.0f));
+	cube->Traslation(Vector3D(-5.0f,3.0f,0.0f));
 
 
 }
@@ -313,7 +314,13 @@ void Game::setUpShaderAndBuffers()
 	
 	randomCube.addComponent<TransformComponent>(Vector3D(1.0f,1.0f,1.0f),true,cube);
 	
+	randomCube.addComponent<RayFigure>(*shaderProgram,Vector3D(1.0f,1.0f,1.0f), *rotateTex, Vector3D(0.050f,0.050f,-1.0f));
+	
 	randomCube.addGroup(groupColliders);
+	
+	
+	
+	
 	//randomCube
 
 

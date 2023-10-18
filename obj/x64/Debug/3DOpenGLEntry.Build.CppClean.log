@@ -1,6 +1,5 @@
 d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplemaze\obj\x64\debug\vc143.pdb
 d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplemaze\obj\x64\debug\vc143.idb
-d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplemaze\obj\x64\debug\vector3d.obj
 d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplemaze\obj\x64\debug\vbo.obj
 d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplemaze\obj\x64\debug\vao.obj
 d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplemaze\obj\x64\debug\triangulefigure.obj
@@ -8,6 +7,7 @@ d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplem
 d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplemaze\obj\x64\debug\texture.obj
 d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplemaze\obj\x64\debug\stb.obj
 d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplemaze\obj\x64\debug\shaderclass.obj
+d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplemaze\obj\x64\debug\rayfigure.obj
 d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplemaze\obj\x64\debug\point.obj
 d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplemaze\obj\x64\debug\player.obj
 d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplemaze\obj\x64\debug\matrices.obj
@@ -20,6 +20,7 @@ d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplem
 d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplemaze\obj\x64\debug\ecs.obj
 d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplemaze\obj\x64\debug\cubefigure.obj
 d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplemaze\obj\x64\debug\cameracomponent.obj
+d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplemaze\obj\x64\debug\vector3d.obj
 d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplemaze\obj\x64\debug\glad.obj
 d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplemaze\obj\x64\debug\3dopenglentry.ilk
 d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplemaze\bin\debug\x86_64\3dopenglentry.exe
