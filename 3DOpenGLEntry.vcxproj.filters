@@ -82,4 +82,7 @@
     <ClCompile Include="src\transformComponent.cpp" />
     <ClCompile Include="src\cubeFigure.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="RotateTriangle.png" />
+  </ItemGroup>
 </Project>

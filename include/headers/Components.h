@@ -6,3 +6,4 @@
 #include "RadToDegree.h"
 #include "CameraComponent.h"
 #include "FigureComponent.h"
+#include "TransformComponent.h"

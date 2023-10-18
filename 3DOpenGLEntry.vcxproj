@@ -221,6 +221,9 @@
     <ClCompile Include="src\vbo.cpp" />
     <ClCompile Include="src\vector3D.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="RotateTriangle.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

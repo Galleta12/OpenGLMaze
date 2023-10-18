@@ -17,7 +17,7 @@
 #include "Components.h"
 #include "MainCamera.h"
 #include "TrianguleFigure.h"
-
+#include "CubeFigure.h"
 //initialize static variables
 int Game::Width = 0;
 int Game::Height = 0;
@@ -49,6 +49,9 @@ Manager manager;
 
 
 auto &triangle(manager.addEntity());
+auto &triangleRotate(manager.addEntity());
+
+auto &randomCube(manager.addEntity());
 
 
 
@@ -150,6 +153,9 @@ void Game::handleEvents()
     }
 
 }
+auto& camerasWorld(manager.getGroup(Game::groupCameras));
+auto& triangleWorld(manager.getGroup(Game::groupTriangle));
+auto& collidersWorld(manager.getGroup(Game::groupColliders));
 
 void Game::update(float deltaTime)
 {
@@ -160,11 +166,23 @@ void Game::update(float deltaTime)
 	//camera->updateMatrix(45.0f, 0.1f, 100.0f);
 	manager.refresh();
     manager.update(deltaTime);
+	
+	TransformComponent *tra = &triangle.getComponent<TransformComponent>(); 
+
+	TransformComponent *tr2 = &triangleRotate.getComponent<TransformComponent>(); 
+
+	TransformComponent *cube = &randomCube.getComponent<TransformComponent>(); 
+	
+	tra->Traslation(tra->position);
+	
+	tra->Scale(Vector3D(1.0f,5.0f,1.0f));
+
+	tr2->Traslation(tr2->position);
+
+	//cube->Traslation(Vector3D(-5.0f,1.0f,0.0f));
 
 
 }
-auto& camerasWorld(manager.getGroup(Game::groupCameras));
-auto& triangleWorld(manager.getGroup(Game::groupTriangle));
 
 void Game::display()
 {
@@ -185,6 +203,7 @@ void Game::display()
 	
 	glUniform3f(glGetUniformLocation(shaderProgram->ID, "camPos"), pos.x, pos.y, pos.z);
 	
+	
 	for(auto& c : camerasWorld){
        c->draw(*shaderProgram); 
     }
@@ -195,6 +214,10 @@ void Game::display()
 	
 	for(auto& t : triangleWorld){
        t->draw(*shaderProgram); 
+    }
+	
+	for(auto& co : collidersWorld){
+       co->draw(*shaderProgram); 
     }
 	
 	
@@ -253,10 +276,28 @@ void Game::setUpShaderAndBuffers()
 	shaderProgram = new Shader("default.vert", "default.frag");
 
 
-	triangle.addComponent<TrianguleFigure>(*shaderProgram,Vector3D(1.0f,1.0f,1.0f), "brick.png");
+	TrianguleFigure *tri = &triangle.addComponent<TrianguleFigure>(*shaderProgram,Vector3D(1.0f,1.0f,1.0f), "RotateTriangle.png");
+	
+	triangle.addComponent<TransformComponent>(Vector3D(2.0f,0.0f,-2.0f),true,tri);
+	
 	triangle.addGroup(groupTriangle);
 
+	//second triangle
 
+	TrianguleFigure *tr2 = &triangleRotate.addComponent<TrianguleFigure>(*shaderProgram,Vector3D(1.0f,1.0f,1.0f), "RotateTriangle.png");
+	
+	triangleRotate.addComponent<TransformComponent>(Vector3D(-2.0f,1.0f,0.0f),true,tr2);
+	
+	triangleRotate.addGroup(groupTriangle);
+
+	//random cube test
+
+	CubeFigure *cube = &randomCube.addComponent<CubeFigure>(*shaderProgram,Vector3D(1.0f,1.0f,1.0f), "brick.png");
+	
+	randomCube.addComponent<TransformComponent>(Vector3D(1.0f,1.0f,1.0f),true,cube);
+	
+	randomCube.addGroup(groupColliders);
+	//randomCube
 
 
 	// Shader for light cube

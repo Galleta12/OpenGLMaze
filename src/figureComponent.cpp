@@ -26,7 +26,7 @@ void FigureComponent::update(float deltaTime)
     //should not affect the modelMatrix. only affect the copyMatrix
     copyMatrix = mModelMatrix->getModelMatrix();
     //load identity?
-    copyMatrix.loadIdentity();
+    //copyMatrix.loadIdentity();
 
 }
 
@@ -71,7 +71,7 @@ void FigureComponent::setVerticesBuffer(Shader& shader,GLfloat *verticesArray , 
     
     
     //active the shader
-    shader.Activate();    
+    //shader.Activate();    
     // Generates Vertex Array Object and binds it
     VAO1 = std::make_unique<VAO>();
     VAO1->Bind();
@@ -134,6 +134,7 @@ void FigureComponent::TraslateFigure(Vector3D move)
 
 void FigureComponent::ScaleFigure(Vector3D scale)
 {
+    scaleFactorFigure = scale;
     copyMatrix.scale(scale);
 }
 
