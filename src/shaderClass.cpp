@@ -70,6 +70,8 @@ Shader::Shader(const char* vertexFile, const char* fragmentFile)
 
 	projectionMatrixLoc = glGetUniformLocation(ID, "u_projection_matrix");
 
+	eyePosLoc = glGetUniformLocation(ID, "u_eye_position");
+ 
 }
 
 // Activates the Shader Program
@@ -123,7 +125,7 @@ void Shader::set_normal_attribute(const std::vector<GLfloat> vertex_array)
 
 void Shader::set_eye_position(float x, float y, float z)
 {
-    glUniform4f(eyePosLoc, x, y, z, 1.0);
+    glUniform3f(eyePosLoc, x, y, z);
 }
 
 void Shader::set_light_position(float x, float y, float z)

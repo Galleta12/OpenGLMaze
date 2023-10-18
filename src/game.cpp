@@ -157,6 +157,7 @@ void Game::handleEvents()
     }
 
 }
+
 auto& camerasWorld(manager.getGroup(Game::groupCameras));
 auto& triangleWorld(manager.getGroup(Game::groupTriangle));
 auto& collidersWorld(manager.getGroup(Game::groupColliders));
@@ -198,19 +199,14 @@ void Game::display()
 	// Exports the camera Position to the Fragment Shader for specular lighting
 	
 	Vector3D pos = mainCamera->getCameraComponent()->eyePosition;
-	//glUniform3f(glGetUniformLocation(shaderProgram->ID, "camPos"), camera->Position.x, camera->Position.y, camera->Position.z);
-	
-	glUniform3f(glGetUniformLocation(shaderProgram->ID, "camPos"), pos.x, pos.y, pos.z);
-	
+
+	shaderProgram->set_eye_position(pos.x, pos.y, pos.z);
 	
 	for(auto& c : camerasWorld){
        c->draw(*shaderProgram); 
     }
-	// Export the camMatrix to the Vertex Shader of the pyramid
-	//camera->Matrix(*shaderProgram, "camMatrix");
 	
-	// Binds texture so that is appears in rendering
-	
+		
 	for(auto& t : triangleWorld){
        t->draw(*shaderProgram); 
     }

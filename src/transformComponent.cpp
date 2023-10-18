@@ -101,7 +101,7 @@ void TransformComponent::OnCollisionEnter(TransformComponent *en1, TransformComp
     Vector3D newPos = normalCollision * depth;
     
 
-    std::cout << "depth" << newPos << std::endl;
+    //std::cout << "depth" << newPos << std::endl;
 
     // en1->position += newPos;
 

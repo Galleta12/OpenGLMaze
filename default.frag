@@ -20,7 +20,7 @@ uniform vec4 lightColor;
 // Gets the position of the light from the main function
 uniform vec3 lightPos;
 // Gets the position of the camera from the main function
-uniform vec3 camPos;
+uniform vec3 u_eye_position;
 
 void main()
 {
@@ -34,7 +34,7 @@ void main()
 
 	// specular lighting
 	float specularLight = 0.50f;
-	vec3 viewDirection = normalize(camPos - crntPos);
+	vec3 viewDirection = normalize(u_eye_position - crntPos);
 	vec3 reflectionDirection = reflect(-lightDirection, normal);
 	float specAmount = pow(max(dot(viewDirection, reflectionDirection), 0.0f), 8);
 	float specular = specAmount * specularLight;

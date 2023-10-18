@@ -4,7 +4,13 @@
 #include "RadToDegree.h"
 
 #include <iostream>
-
+#include<glm/glm.hpp>
+#include<glm/gtc/matrix_transform.hpp>
+#include<glm/gtc/type_ptr.hpp>
+#include<glm/gtx/rotate_vector.hpp>
+#include<glm/gtx/vector_angle.hpp>
+#include <glm/ext.hpp>
+#include <glm/gtx/string_cast.hpp>
 
 Player::Player(Manager &mManager, Shader& shader, Texture &tex)
 :Entity(mManager)
@@ -69,12 +75,12 @@ void Player::handlePlayerMoves(float deltaTime)
 
 void Player::playerTraslation(float deltaTime)
 {
-
     
     float adjustedSpeed = mSpeed * deltaTime;
     
-    Vector3D orientation = transformComponent->OrientationVector.normalize();
+   
 
+    
     Vector3D keyDir(0.0f, 0.0f, 0.0f);
 
     if (glfwGetKey(Game::window, GLFW_KEY_UP) == GLFW_PRESS) {
@@ -83,21 +89,25 @@ void Player::playerTraslation(float deltaTime)
 
     if (glfwGetKey(Game::window, GLFW_KEY_DOWN) == GLFW_PRESS) {
         keyDir += Vector3D(0.0f, 0.0f, -1.0f);
+
     }
 
     if (glfwGetKey(Game::window, GLFW_KEY_LEFT) == GLFW_PRESS) {
         keyDir += Vector3D(-1.0f, 0.0f, 0.0f);
+
     }
 
     if (glfwGetKey(Game::window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
         keyDir += Vector3D(1.0f, 0.0f, 0.0f);
+
     }
 
-        
+
+     
     
      transformComponent->position +=  keyDir * adjustedSpeed;
     
-
+    
     
     
     ray->TraslateFigure(transformComponent->position);
