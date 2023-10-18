@@ -16,7 +16,7 @@
 #include <glm/ext.hpp>
 #include <glm/gtx/string_cast.hpp>
 
-std::string get_file_contents(const char* filename);
+
 
 class Shader
 {
@@ -44,6 +44,8 @@ public:
         
 
     void set_light_position(float x, float y, float z);
+    
+    void set_light_color(float x, float y, float z, float w);
         
     void set_light_diffuse(float red, float green, float blue);
         
@@ -68,14 +70,25 @@ private:
     GLuint positionLoc;
     GLuint normalLoc;
     GLuint modelMatrixLoc;
+    
     GLuint lightPosLoc;
+    
+    GLuint lightColorLoc;
+    
     GLuint lightDiffuseLoc;
+    
     GLuint materialDiffuseLoc; 
+    
     GLuint eyePosLoc;
+    
     GLuint lightSpecularLoc;
+    
     GLuint materialSpecularLoc;  
+    
     GLuint materialShininessLoc;
+    
     GLuint viewMatrixLoc;
+    
     GLuint projectionMatrixLoc;
 
 	

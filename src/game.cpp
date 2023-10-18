@@ -46,6 +46,8 @@ Texture *rotateTex = nullptr;
 
 ModelMatrix *modelMatrix = nullptr;
 
+ModelMatrix *lightModelMatrix = nullptr;
+
 MainCamera* mainCamera;
 Player* mainPlayer;
 
@@ -312,7 +314,7 @@ void Game::setUpShaderAndBuffers()
 
 	
 	//initialize entities
-	TrianguleFigure *tri = &triangle.addComponent<TrianguleFigure>(*shaderProgram,Vector3D(1.0f,1.0f,1.0f), *rotateTex);
+	TrianguleFigure *tri = &triangle.addComponent<TrianguleFigure>(*shaderProgram,Vector3D(1.0f,1.0f,1.0f), *brickTex);
 	
 	triangle.addComponent<TransformComponent>(Vector3D(2.0f,0.0f,-2.0f),true,tri);
 	
@@ -320,7 +322,7 @@ void Game::setUpShaderAndBuffers()
 
 	//second triangle
 
-	TrianguleFigure *tr2 = &triangleRotate.addComponent<TrianguleFigure>(*shaderProgram,Vector3D(1.0f,1.0f,1.0f), *rotateTex);
+	TrianguleFigure *tr2 = &triangleRotate.addComponent<TrianguleFigure>(*shaderProgram,Vector3D(1.0f,1.0f,1.0f), *brickTex);
 	
 	triangleRotate.addComponent<TransformComponent>(Vector3D(-2.0f,1.0f,0.0f),true,tr2);
 	
@@ -339,7 +341,7 @@ void Game::setUpShaderAndBuffers()
 	randomCube.addGroup(groupColliders);
 	
 	
-	mainPlayer = dynamic_cast<Player*>(&manager.addEntityClass<Player>(*shaderProgram,*brickTex));
+	mainPlayer = dynamic_cast<Player*>(&manager.addEntityClass<Player>(*shaderProgram,*rotateTex));
 	
 	//randomCube
 
@@ -370,26 +372,29 @@ void Game::setUpEntities()
 
     
 
-	glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-	glm::vec3 lightPos = glm::vec3(0.5f, 0.5f, 0.5f);
-	glm::mat4 lightModel = glm::mat4(1.0f);
-	lightModel = glm::translate(lightModel, lightPos);
+	// glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+	// glm::vec3 lightPos = glm::vec3(1.5f, 1.5f, 0.5f);
+	// glm::mat4 lightModel = glm::mat4(1.0f);
+	// lightModel = glm::translate(lightModel, lightPos);
 
-	
+	lightModelMatrix = new ModelMatrix();
+	lightModelMatrix->loadIdentity();
+	lightModelMatrix->traslation(Vector3D(1.5f, 1.5f, 0.5f));
 	
 	lightShader->use();
+
 	
-	glUniformMatrix4fv(glGetUniformLocation(lightShader->ID, "model"), 1, GL_FALSE, glm::value_ptr(lightModel));
-	glUniform4f(glGetUniformLocation(lightShader->ID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
-	
+
+	lightShader->set_model_matrix(lightModelMatrix->getMatrix());
+	lightShader->set_light_color(1.0f, 1.0f, 1.0f, 1.0f);
 	
 	shaderProgram->use();
 	
-	//glUniformMatrix4fv(glGetUniformLocation(shaderProgram->ID, "model"), 1, GL_FALSE, glm::value_ptr(pyramidModel));
-	//shaderProgram->set_model_matrix(modelMatrix->getMatrix());
 	
-	glUniform4f(glGetUniformLocation(shaderProgram->ID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
-	glUniform3f(glGetUniformLocation(shaderProgram->ID, "lightPos"), lightPos.x, lightPos.y, lightPos.z);
+
+
+	shaderProgram->set_light_color(1.0f, 1.0f, 1.0f, 1.0f);
+	shaderProgram->set_light_position(1.5f, 1.5f, 0.5f);
 
 
 	mainCamera = dynamic_cast<MainCamera*>(&manager.addEntityClass<MainCamera>());

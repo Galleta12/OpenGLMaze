@@ -83,6 +83,10 @@ Shader::Shader(const char* vertexFile, const char* fragmentFile)
 	projectionMatrixLoc = glGetUniformLocation(ID, "u_projection_matrix");
 
 	eyePosLoc = glGetUniformLocation(ID, "u_eye_position");
+	
+	lightPosLoc = glGetUniformLocation(ID, "lightPos");
+
+	lightColorLoc = glGetUniformLocation(ID, "lightColor");
  
 }
 
@@ -146,7 +150,12 @@ void Shader::set_eye_position(float x, float y, float z)
 
 void Shader::set_light_position(float x, float y, float z)
 {
-    glUniform4f(lightPosLoc, x, y, z, 1.0);
+    glUniform3f(lightPosLoc, x, y, z);
+}
+
+void Shader::set_light_color(float x, float y, float z, float w)
+{
+	glUniform4f(lightColorLoc, x, y, z, w);
 }
 
 void Shader::set_light_diffuse(float red, float green, float blue)
