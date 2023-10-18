@@ -180,31 +180,43 @@
   <ItemGroup>
     <ClInclude Include="..\..\Assigment34Fixes\FirstOpenGL\include\headers\RadToDegree.h" />
     <ClInclude Include="include\headers\Camera.h" />
+    <ClInclude Include="include\headers\CameraComponent.h" />
     <ClInclude Include="include\headers\Components.h" />
+    <ClInclude Include="include\headers\CubeFigure.h" />
     <ClInclude Include="include\headers\EBO.h" />
     <ClInclude Include="include\headers\ECS.h" />
+    <ClInclude Include="include\headers\FigureComponent.h" />
     <ClInclude Include="include\headers\Game.h" />
+    <ClInclude Include="include\headers\MainCamera.h" />
     <ClInclude Include="include\headers\Matrices.h" />
     <ClInclude Include="include\headers\Point.h" />
     <ClInclude Include="include\headers\RadToDegree.h" />
     <ClInclude Include="include\headers\ShaderClass.h" />
     <ClInclude Include="include\headers\Texture.h" />
+    <ClInclude Include="include\headers\TransformComponent.h" />
+    <ClInclude Include="include\headers\TrianguleFigure.h" />
     <ClInclude Include="include\headers\VAO.h" />
     <ClInclude Include="include\headers\VBO.h" />
     <ClInclude Include="include\headers\Vector3D.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\cameraComponent.cpp" />
+    <ClCompile Include="src\cubeFigure.cpp" />
     <ClCompile Include="src\ecs.cpp" />
+    <ClCompile Include="src\figureComponent.cpp" />
     <ClCompile Include="src\game.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\ebo.cpp" />
     <ClCompile Include="src\glad.c" />
+    <ClCompile Include="src\mainCamera.cpp" />
     <ClCompile Include="src\matrices.cpp" />
     <ClCompile Include="src\point.cpp" />
     <ClCompile Include="src\shaderClass.cpp" />
     <ClCompile Include="src\stb.cpp" />
     <ClCompile Include="src\texture.cpp" />
+    <ClCompile Include="src\transformComponent.cpp" />
+    <ClCompile Include="src\trianguleFigure.cpp" />
     <ClCompile Include="src\vao.cpp" />
     <ClCompile Include="src\vbo.cpp" />
     <ClCompile Include="src\vector3D.cpp" />

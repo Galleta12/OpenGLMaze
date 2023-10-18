@@ -11,10 +11,10 @@ class Game{
         //for adding groups labels, all entities and components will have acces to this
         enum GroupLabels : std::size_t
         {
-            groupMap,
             groupColliders,
-            groupCamera,
-            groupCameraOrtho
+            groupCameras,
+            groupCameraOrtho,
+            groupTriangle
         };
         
         static int Width, Height;

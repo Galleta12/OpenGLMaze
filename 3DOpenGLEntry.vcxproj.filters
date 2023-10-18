@@ -35,6 +35,12 @@
     <ClInclude Include="..\..\Assigment34Fixes\FirstOpenGL\include\headers\RadToDegree.h" />
     <ClInclude Include="include\headers\RadToDegree.h" />
     <ClInclude Include="include\headers\Game.h" />
+    <ClInclude Include="include\headers\CameraComponent.h" />
+    <ClInclude Include="include\headers\MainCamera.h" />
+    <ClInclude Include="include\headers\FigureComponent.h" />
+    <ClInclude Include="include\headers\TrianguleFigure.h" />
+    <ClInclude Include="include\headers\TransformComponent.h" />
+    <ClInclude Include="include\headers\CubeFigure.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp">
@@ -69,5 +75,11 @@
     <ClCompile Include="src\point.cpp" />
     <ClCompile Include="src\vector3D.cpp" />
     <ClCompile Include="src\game.cpp" />
+    <ClCompile Include="src\cameraComponent.cpp" />
+    <ClCompile Include="src\mainCamera.cpp" />
+    <ClCompile Include="src\figureComponent.cpp" />
+    <ClCompile Include="src\trianguleFigure.cpp" />
+    <ClCompile Include="src\transformComponent.cpp" />
+    <ClCompile Include="src\cubeFigure.cpp" />
   </ItemGroup>
 </Project>

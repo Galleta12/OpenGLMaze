@@ -5,12 +5,12 @@
 #include <algorithm>
 #include <bitset>
 #include <array>
-
+#include "ShaderClass.h"
 //declaration of classes
 class Component;
 class Entity;
 class Manager;
-
+class Shader;
 
 
 //standard size t
@@ -72,7 +72,8 @@ public:
     //virtual to overwrite it
     virtual void init(){}
     virtual void update(float deltaTime){}
-    virtual void draw(){}
+    // Define a variadic template for the draw function
+    virtual void draw(Shader& shader){}
    
     //virtual deconstructor
     virtual ~Component(){}
@@ -93,8 +94,8 @@ class Entity{
             for(auto& c : components)c->update(deltaTime);
         
         }
-        virtual void draw(){
-            for(auto& c : components)c->draw();
+        virtual void draw(Shader& shader){
+            for(auto& c : components)c->draw(shader);
         }
         
         //check if is active 
@@ -177,9 +178,9 @@ class Manager{
 
             for(auto& e : entities)e->update(deltaTime);
         }
-        void draw(){
+        void draw(Shader& shader){
         
-            for(auto& e : entities)e->draw();
+            for(auto& e : entities)e->draw(shader);
             
         }
 
