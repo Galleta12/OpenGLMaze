@@ -19,6 +19,7 @@
 #include "TrianguleFigure.h"
 #include "CubeFigure.h"
 #include "RayFigure.h"
+#include "PlaneFigure.h"
 #include "Player.h"
 //initialize static variables
 int Game::Width = 0;
@@ -43,6 +44,7 @@ EBO *lightEBO = nullptr;
 
 Texture *brickTex = nullptr;
 Texture *rotateTex = nullptr;
+Texture *planeTex = nullptr;
 
 ModelMatrix *modelMatrix = nullptr;
 
@@ -58,6 +60,7 @@ auto &triangle(manager.addEntity());
 auto &triangleRotate(manager.addEntity());
 auto &randomCube(manager.addEntity());
 auto &cameraOrthoEntity(manager.addEntity());
+auto &planeEntity(manager.addEntity());
 
 
 
@@ -158,6 +161,7 @@ auto& camerasWorld(manager.getGroup(Game::groupCameras));
 auto& triangleWorld(manager.getGroup(Game::groupTriangle));
 auto& collidersWorld(manager.getGroup(Game::groupColliders));
 auto& orthoCamerasWorld(manager.getGroup(Game::groupCameraOrtho));
+auto& planeWorld(manager.getGroup(Game::groupPlane));
 
 void Game::handleEvents()
 {
@@ -311,6 +315,12 @@ void Game::setUpShaderAndBuffers()
 	rotateTex = new Texture("RotateTriangle.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
     
     rotateTex->texUnit(*shaderProgram, "tex0", 0);
+	
+	
+	//plane tex
+	planeTex = new Texture("planks.png.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+    
+    planeTex->texUnit(*shaderProgram, "tex0", 0);
 
 	
 	//initialize entities
@@ -343,7 +353,12 @@ void Game::setUpShaderAndBuffers()
 	
 	mainPlayer = dynamic_cast<Player*>(&manager.addEntityClass<Player>(*shaderProgram,*rotateTex));
 	
-	//randomCube
+	//plane
+
+	planeEntity.addComponent<PlaneFigure>(*shaderProgram,Vector3D(1.0f,1.0f,1.0f), *planeTex);
+
+
+	planeEntity.addGroup(groupPlane);
 
 
 	// Shader for light cube
@@ -450,6 +465,10 @@ void Game::drawFirstViewPort()
        c->draw(*shaderProgram); 
     }
 	
+	for(auto& p : planeWorld){
+       p->draw(*shaderProgram); 
+    }
+	
 		
 	for(auto& t : triangleWorld){
        t->draw(*shaderProgram); 
@@ -500,6 +519,11 @@ void Game::drawSecondViewPort()
         o->draw(*shaderProgram);
         
     }
+
+	for(auto& p : planeWorld){
+       p->draw(*shaderProgram); 
+    }
+	
 		
 	for(auto& t : triangleWorld){
        t->draw(*shaderProgram); 

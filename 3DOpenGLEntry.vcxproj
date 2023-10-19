@@ -190,6 +190,7 @@
     <ClInclude Include="include\headers\MainCamera.h" />
     <ClInclude Include="include\headers\Matrices.h" />
     <ClInclude Include="include\headers\Physics.h" />
+    <ClInclude Include="include\headers\PlaneFigure.h" />
     <ClInclude Include="include\headers\Player.h" />
     <ClInclude Include="include\headers\Point.h" />
     <ClInclude Include="include\headers\RadToDegree.h" />
@@ -215,6 +216,7 @@
     <ClCompile Include="src\mainCamera.cpp" />
     <ClCompile Include="src\matrices.cpp" />
     <ClCompile Include="src\physics.cpp" />
+    <ClCompile Include="src\planeFigure.cpp" />
     <ClCompile Include="src\player.cpp" />
     <ClCompile Include="src\point.cpp" />
     <ClCompile Include="src\rayFigure.cpp" />
@@ -229,6 +231,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="planks.png" />
+    <Image Include="planksSpec.png" />
     <Image Include="RotateTriangle.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
