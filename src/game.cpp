@@ -10,10 +10,9 @@
 #include"VAO.h"
 #include"VBO.h"
 #include"EBO.h"
-#include"Camera.h"
+
 #include "Matrices.h"
 #include "Vector3D.h"
-
 #include "Components.h"
 #include "MainCamera.h"
 #include "TrianguleFigure.h"
@@ -22,6 +21,7 @@
 #include "PlaneFigure.h"
 #include "Player.h"
 #include "Map.h"
+#include "Light.h"
 
 //initialize static variables
 int Game::Width = 0;
@@ -35,22 +35,9 @@ Game::WhoISCamera Game::cameraViewState = Game::WhoISCamera::MAINCAMERA;
 
 Shader *shaderProgram = nullptr;
 Shader *lightShader = nullptr;
-Camera *camera = nullptr;
-
-
-VAO *lightVAO = nullptr;
-
-VBO *lightVBO = nullptr;
-
-EBO *lightEBO = nullptr;
 
 Texture *rotateTex = nullptr;
 Texture *planeTex = nullptr;
-
-
-ModelMatrix *modelMatrix = nullptr;
-
-ModelMatrix *lightModelMatrix = nullptr;
 
 MainCamera* mainCamera;
 
@@ -62,38 +49,6 @@ Manager manager;
 
 auto &cameraOrthoEntity(manager.addEntity());
 auto &planeEntity(manager.addEntity());
-auto &triangle(manager.addEntity());
-auto &triangleRotate(manager.addEntity());
-
-
-GLfloat lightVertices[] =
-{ //     COORDINATES     //
-	-0.1f, -0.1f,  0.1f,
-	-0.1f, -0.1f, -0.1f,
-	 0.1f, -0.1f, -0.1f,
-	 0.1f, -0.1f,  0.1f,
-	-0.1f,  0.1f,  0.1f,
-	-0.1f,  0.1f, -0.1f,
-	 0.1f,  0.1f, -0.1f,
-	 0.1f,  0.1f,  0.1f
-};
-
-GLuint lightIndices[] =
-{
-	0, 1, 2,
-	0, 2, 3,
-	0, 4, 7,
-	0, 7, 3,
-	3, 7, 6,
-	3, 6, 2,
-	2, 6, 5,
-	2, 5, 1,
-	1, 5, 4,
-	1, 4, 0,
-	4, 5, 6,
-	4, 6, 7
-};
-
 
 
 
@@ -159,11 +114,13 @@ void Game::init(const char *title, int posX, int posY, int width, int height, bo
 
 }
 
+//all the types that we are going to use
 auto& camerasWorld(manager.getGroup(Game::groupCameras));
 auto& triangleWorld(manager.getGroup(Game::groupTriangle));
 auto& collidersWorld(manager.getGroup(Game::groupColliders));
 auto& orthoCamerasWorld(manager.getGroup(Game::groupCameraOrtho));
 auto& planeWorld(manager.getGroup(Game::groupPlane));
+auto& lightsWorld(manager.getGroup(Game::groupLights));
 
 void Game::handleEvents()
 {
@@ -246,9 +203,7 @@ void Game::clean()
 	// Delete all the objects we've created
 	
 	shaderProgram->Delete();
-	lightVAO->Delete();
-	lightVBO->Delete();
-	lightEBO->Delete();
+	
 	lightShader->Delete();
 
 	rotateTex->Delete();
@@ -304,30 +259,22 @@ void Game::setUpShaderAndBuffers()
 	
 	
 	
-	// Generates Shader object using shaders default.vert and default.frag
 	shaderProgram = new Shader("default.vert", "default.frag");
 
 	map = dynamic_cast<Map*>(&manager.addEntityClass<Map>(*shaderProgram));
-	//brick tex
-	// brickTex = new Texture("brick.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
-    
-    // brickTex->texUnit(*shaderProgram, "tex0", 0);
-	
+
 	//rotate tex
 	rotateTex = new Texture("RotateTriangle.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
     
     rotateTex->texUnit(*shaderProgram, "tex0", 0);
-	
-	
+		
 	//plane tex
+	//the specular is set on the planfigure constuctor
 	planeTex = new Texture("planks.png", GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE);
     
     planeTex->texUnit(*shaderProgram, "tex0", 0);
 	
-	//the specular is create inside the plane class
-
-	
-	
+	//player
 	mainPlayer = dynamic_cast<Player*>(&manager.addEntityClass<Player>(*shaderProgram,*rotateTex));
 	
 
@@ -343,18 +290,14 @@ void Game::setUpShaderAndBuffers()
 	// Shader for light cube
 	lightShader = new Shader("light.vert", "light.frag");
 	// Generates Vertex Array Object and binds it
-	lightVAO = new VAO;
-	lightVAO->Bind();
-	// Generates Vertex Buffer Object and links it to vertices
-	lightVBO = new VBO(lightVertices, sizeof(lightVertices));
-	// Generates Element Buffer Object and links it to indices
-	lightEBO = new EBO(lightIndices, sizeof(lightIndices));
-	// Links VBO attributes such as coordinates and colors to VAO
-	lightVAO->LinkAttrib(*lightVBO, 0, 3, GL_FLOAT, 3 * sizeof(float), (void*)0);
-	// Unbind all to prevent accidentally modifying them
-	lightVAO->Unbind();
-	lightVBO->Unbind();
-	lightEBO->Unbind();
+	//start light shader	
+	//generate ligh class
+	//LineSource light1 = dynamic_cast<LineSource*>(&manager.addEntityClass<LineSource>(*shaderProgram,*rotateTex));
+	manager.addEntityClass<LightSource>(*lightShader,Vector3D(-3.0f, 2.3f, -1.0f), Vector3D(1.0f, 1.0f, 1.0f), 1.0f);
+	
+
+
+
 
 
 }
@@ -364,29 +307,14 @@ void Game::setUpShaderAndBuffers()
 void Game::setUpEntities()
 {
 
-    
-
-	lightModelMatrix = new ModelMatrix();
-	lightModelMatrix->loadIdentity();
-	lightModelMatrix->traslation(Vector3D(-3.0f, 2.3f, -1.0f));
-	
-	lightShader->use();
-
-
-	lightShader->set_model_matrix(lightModelMatrix->getMatrix());
-	lightShader->set_light_color(1.0f, 1.0f, 1.0f, 1.0f);
-	
+	//set up the initial light color and position on the shader
+	//this can be improvement
 	shaderProgram->use();
 	
-	
-
-
 	shaderProgram->set_light_color(1.0f, 1.0f, 1.0f, 1.0f);
 	shaderProgram->set_light_position(-3.0f, -1.3f, 0.0f);
 
-
 	mainCamera = dynamic_cast<MainCamera*>(&manager.addEntityClass<MainCamera>());
-
 	
 	//ortho camera
 	cameraOrthoEntity.addComponent<CameraComponent>(Vector3D(1.0f,5.0f,1.0f));
@@ -452,24 +380,20 @@ void Game::drawFirstViewPort()
     }
 	
 	
+	
 	// Tells OpenGL which Shader Program we want to use
 	
+	//we are already using the light on the light shader entity
 	lightShader->use();
 	
-	// Export the camMatrix to the Vertex Shader of the light cube
-	
-	//camera->Matrix(*lightShader, "camMatrix");
-	lightVAO->Bind();
-	
+	// Export the camMatrix to the Vertex Shader of the light cube	
 	for(auto& c : camerasWorld){
         c->draw(*lightShader); 
     }
 	
-	// Bind the VAO so OpenGL knows to use it
-	
-	// Draw primitives, number of indices, datatype of indices, index of indices
-	glDrawElements(GL_TRIANGLES, sizeof(lightIndices) / sizeof(int), GL_UNSIGNED_INT, 0);
-
+	for(auto& l : lightsWorld){
+       l->draw(*shaderProgram); 
+    }
 
 }
 
@@ -510,24 +434,14 @@ void Game::drawSecondViewPort()
 	
 	lightShader->use();
 	
-	// Export the camMatrix to the Vertex Shader of the light cube
-	
-	//camera->Matrix(*lightShader, "camMatrix");
-	lightVAO->Bind();
-	
 	for(auto& o : orthoCamerasWorld){
         o->draw(*lightShader);
         
     }
+
+	for(auto& l : lightsWorld){
+       l->draw(*shaderProgram); 
+    }
 	
-	// Bind the VAO so OpenGL knows to use it
-	
-	// Draw primitives, number of indices, datatype of indices, index of indices
-	glDrawElements(GL_TRIANGLES, sizeof(lightIndices) / sizeof(int), GL_UNSIGNED_INT, 0);
-
-
-
-
-
 
 }

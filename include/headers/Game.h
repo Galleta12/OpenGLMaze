@@ -15,7 +15,8 @@ class Game{
             groupCameras,
             groupCameraOrtho,
             groupTriangle,
-            groupPlane
+            groupPlane,
+            groupLights
         };
 
 

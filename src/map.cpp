@@ -155,14 +155,11 @@ void Map::setUpTexture(Shader &shader)
 	trigle2.addComponent<TransformComponent>(Vector3D(20.0f,18.0f,-3.0f),true,tr2);
 	
     
-   trigle2.addComponent<PhysicsComponent>();
+    //trigle2.addComponent<PhysicsComponent>();
 
-    trigle2.addGroup(Game::groupColliders);
+    trigle2.addGroup(Game::groupTriangle);
     
     
-
-
-
 
     
 }

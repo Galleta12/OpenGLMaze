@@ -203,7 +203,7 @@
     <ClInclude Include="include\headers\VAO.h" />
     <ClInclude Include="include\headers\VBO.h" />
     <ClInclude Include="include\headers\Vector3D.h" />
-    <ClInclude Include="include\Light.h" />
+    <ClInclude Include="include\headers\Light.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\cameraComponent.cpp" />

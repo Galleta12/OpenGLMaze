@@ -46,7 +46,7 @@
     <ClInclude Include="include\headers\Physics.h" />
     <ClInclude Include="include\headers\PlaneFigure.h" />
     <ClInclude Include="include\headers\Map.h" />
-    <ClInclude Include="include\Light.h" />
+    <ClInclude Include="include\headers\Light.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp">
