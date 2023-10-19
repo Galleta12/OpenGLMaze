@@ -35,7 +35,7 @@ class MainCamera : public Entity{
 
         bool firstClick = true;
         
-        float cameraSpeed = 1.0f;
+        float cameraSpeed = 3.0f;
         float sensitivity = 100.0f;
         
         void RotationCamera(float deltaTime);

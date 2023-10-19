@@ -38,12 +38,12 @@ vec4 calculatePointLight(){
 	vec3 lightVec = lightPos - crntPos;
 	float dist = length(lightVec);
 	//inverse square law
-	// float a = 3.0;
-	// float b = 0.7;
+	float a = 3.0;
+	float b = 0.7;
 	
 	//more distnace
-	float a = 0.05;
-	float b = 0.01;
+	// float a = 0.05;
+	// float b = 0.01;
 	float inten = 1.0f / (a * dist * dist + b * dist + 1.0f);
 	
 	
@@ -141,7 +141,13 @@ vec4 calculateSpotLight(){
 
 }
 
-
+vec4 calculateCombinedLight() {
+    vec4 pointLightColor = calculateDirectionLight();
+    vec4 directionLightColor = calculateSpotLight();
+    
+    // Combine the colors by adding them
+    return pointLightColor + directionLightColor;
+}
 
 
 void main()
@@ -152,5 +158,5 @@ void main()
 	//FragColor = calculatePointLight();
 	//if we want light to came above it should point up
 	//FragColor =  calculateDirectionLight();
-	FragColor =   calculatePointLight();
+	FragColor =   calculateCombinedLight();
 }

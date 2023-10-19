@@ -45,6 +45,8 @@
     <ClInclude Include="include\headers\RayFigure.h" />
     <ClInclude Include="include\headers\Physics.h" />
     <ClInclude Include="include\headers\PlaneFigure.h" />
+    <ClInclude Include="include\headers\Map.h" />
+    <ClInclude Include="include\Light.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp">
@@ -89,10 +91,13 @@
     <ClCompile Include="src\rayFigure.cpp" />
     <ClCompile Include="src\physics.cpp" />
     <ClCompile Include="src\planeFigure.cpp" />
+    <ClCompile Include="src\map.cpp" />
+    <ClCompile Include="src\light.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="RotateTriangle.png" />
     <Image Include="planks.png" />
     <Image Include="planksSpec.png" />
+    <Image Include="lave.png" />
   </ItemGroup>
 </Project>

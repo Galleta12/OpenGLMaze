@@ -23,18 +23,14 @@ Player::Player(Manager &mManager, Shader& shader, Texture &tex)
     
 
     CubeFigure *cube  = &Entity::addComponent<CubeFigure>(shader,Vector3D(1.0f,1.0f,1.0f),tex);
-    
-    
-    //generate texture for the ray
-    
-    
+        
     
     ray  = &Entity::addComponent<RayFigure>(shader,Vector3D(1.0f,1.0f,1.0f),*redtex,Vector3D(0.050f,0.050f,2.5f));
     
     
     
     
-    Entity::addComponent<TransformComponent>(Vector3D(0.0f,0.0f,0.0f),true,cube);
+    Entity::addComponent<TransformComponent>(Vector3D(0.0f,0.6f,0.0f),true,cube);
 
     Entity::addComponent<PhysicsComponent>();   
     

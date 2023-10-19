@@ -21,6 +21,8 @@
 #include "RayFigure.h"
 #include "PlaneFigure.h"
 #include "Player.h"
+#include "Map.h"
+
 //initialize static variables
 int Game::Width = 0;
 int Game::Height = 0;
@@ -42,7 +44,6 @@ VBO *lightVBO = nullptr;
 
 EBO *lightEBO = nullptr;
 
-Texture *brickTex = nullptr;
 Texture *rotateTex = nullptr;
 Texture *planeTex = nullptr;
 
@@ -52,17 +53,17 @@ ModelMatrix *modelMatrix = nullptr;
 ModelMatrix *lightModelMatrix = nullptr;
 
 MainCamera* mainCamera;
+
+Map* map;
+
 Player* mainPlayer;
 
 Manager manager;
 
-
-auto &triangle(manager.addEntity());
-auto &triangleRotate(manager.addEntity());
-auto &randomCube(manager.addEntity());
 auto &cameraOrthoEntity(manager.addEntity());
 auto &planeEntity(manager.addEntity());
-
+auto &triangle(manager.addEntity());
+auto &triangleRotate(manager.addEntity());
 
 
 GLfloat lightVertices[] =
@@ -198,18 +199,11 @@ void Game::update(float deltaTime)
 	manager.refresh();
     manager.update(deltaTime);
 	
-	TransformComponent *tra = &triangle.getComponent<TransformComponent>(); 
 
-	TransformComponent *tr2 = &triangleRotate.getComponent<TransformComponent>(); 
-
-	TransformComponent *cube = &randomCube.getComponent<TransformComponent>(); 
 	
 	TransformComponent *planeTranform = &planeEntity.getComponent<TransformComponent>(); 
 	
 	
-	tra->Scale(Vector3D(1.0f,5.0f,1.0f));
-
-	cube->Scale(cube->getMainFigureComponent()->scaleFactorFigure);
 
 
 	planeTranform->Scale(planeTranform->getMainFigureComponent()->scaleFactorFigure);
@@ -256,7 +250,7 @@ void Game::clean()
 	lightVBO->Delete();
 	lightEBO->Delete();
 	lightShader->Delete();
-	brickTex->Delete();
+
 	rotateTex->Delete();
 
     // Delete window before ending the program
@@ -313,10 +307,11 @@ void Game::setUpShaderAndBuffers()
 	// Generates Shader object using shaders default.vert and default.frag
 	shaderProgram = new Shader("default.vert", "default.frag");
 
+	map = dynamic_cast<Map*>(&manager.addEntityClass<Map>(*shaderProgram));
 	//brick tex
-	brickTex = new Texture("brick.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+	// brickTex = new Texture("brick.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
     
-    brickTex->texUnit(*shaderProgram, "tex0", 0);
+    // brickTex->texUnit(*shaderProgram, "tex0", 0);
 	
 	//rotate tex
 	rotateTex = new Texture("RotateTriangle.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
@@ -331,47 +326,14 @@ void Game::setUpShaderAndBuffers()
 	
 	//the specular is create inside the plane class
 
-
-
-
-	
-	//initialize entities
-	TrianguleFigure *tri = &triangle.addComponent<TrianguleFigure>(*shaderProgram,Vector3D(1.0f,1.0f,1.0f), *brickTex);
-	
-	triangle.addComponent<TransformComponent>(Vector3D(2.0f,0.0f,-2.0f),true,tri);
-	
-	triangle.addGroup(groupTriangle);
-
-	//second triangle
-
-	TrianguleFigure *tr2 = &triangleRotate.addComponent<TrianguleFigure>(*shaderProgram,Vector3D(1.0f,1.0f,1.0f), *brickTex);
-	
-	triangleRotate.addComponent<TransformComponent>(Vector3D(-2.0f,1.0f,0.0f),true,tr2);
-	
-	triangleRotate.addGroup(groupTriangle);
-
-	//random cube test
-
-	CubeFigure *cube = &randomCube.addComponent<CubeFigure>(*shaderProgram,Vector3D(2.0f,2.0f,2.0f), *brickTex);
-	
-	randomCube.addComponent<TransformComponent>(Vector3D(2.0f,0.0f,0.0f),true,cube);
-	
-	randomCube.addComponent<PhysicsComponent>();
-
-
-	
-	randomCube.addGroup(groupColliders);
 	
 	
 	mainPlayer = dynamic_cast<Player*>(&manager.addEntityClass<Player>(*shaderProgram,*rotateTex));
 	
 
 
-
-	//plane
-
-	PlaneFigure *plane = &planeEntity.addComponent<PlaneFigure>(*shaderProgram,Vector3D(10.0f,1.0f,10.0f), *planeTex);
-	planeEntity.addComponent<TransformComponent>(Vector3D(0.0f,-2.0f,0.0f),true,plane);
+	PlaneFigure *plane = &planeEntity.addComponent<PlaneFigure>(*shaderProgram,Vector3D(20.0f,1.0f,20.0f), *planeTex);
+	planeEntity.addComponent<TransformComponent>(Vector3D(0.0f,0.0f,0.0f),true,plane);
 
 	planeEntity.addGroup(groupPlane);
 
@@ -404,18 +366,12 @@ void Game::setUpEntities()
 
     
 
-	// glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-	// glm::vec3 lightPos = glm::vec3(1.5f, 1.5f, 0.5f);
-	// glm::mat4 lightModel = glm::mat4(1.0f);
-	// lightModel = glm::translate(lightModel, lightPos);
-
 	lightModelMatrix = new ModelMatrix();
 	lightModelMatrix->loadIdentity();
-	lightModelMatrix->traslation(Vector3D(-3.0f, -1.3f, 0.0f));
+	lightModelMatrix->traslation(Vector3D(-3.0f, 2.3f, -1.0f));
 	
 	lightShader->use();
 
-	
 
 	lightShader->set_model_matrix(lightModelMatrix->getMatrix());
 	lightShader->set_light_color(1.0f, 1.0f, 1.0f, 1.0f);
@@ -513,17 +469,6 @@ void Game::drawFirstViewPort()
 	
 	// Draw primitives, number of indices, datatype of indices, index of indices
 	glDrawElements(GL_TRIANGLES, sizeof(lightIndices) / sizeof(int), GL_UNSIGNED_INT, 0);
-
-	
-
-
-
-
-
-
-
-
-
 
 
 }

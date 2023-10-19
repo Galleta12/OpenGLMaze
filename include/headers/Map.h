@@ -1,0 +1,43 @@
+#pragma once
+#include <vector>
+#include "Vector3D.h"
+#include "Matrices.h"
+
+#include "ECS.h"
+#include "Components.h"
+#include "ShaderClass.h"
+class CubeFigure;
+class PhysicsComponent;
+class TransformComponent;
+
+class Map : public Entity{
+
+        
+    public:
+        Map(Manager &mManager, Shader &shader);
+        
+        ~Map();
+
+
+    
+        void update(float deltaTime) override;
+
+    private:
+
+        Shader* shader;
+        void setUpTexture(Shader &shader);
+        
+        void SetUpMapX(Manager &mManager);
+        void SetUpMapY(Manager &mManager);
+        
+        void CalculateScaleX(int &counter,int row, int col,float &scaleFactorX, int checkDigit);
+        void CalculateScaleY(int &row,int col,float &scaleFactorY , int checkDigit);
+
+        void GenerateUnRotatedWall(float row, float col, float scaleFactorX,Manager &mManager);
+        void GenerateRotatedWall(float row, float col, float scaleFactorY,Manager &mManager);
+
+
+
+        std::vector<Entity*> objects;
+
+};
