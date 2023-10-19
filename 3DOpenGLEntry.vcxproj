@@ -238,6 +238,7 @@
     <Image Include="planks.png" />
     <Image Include="planksSpec.png" />
     <Image Include="RotateTriangle.png" />
+    <Image Include="wood.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

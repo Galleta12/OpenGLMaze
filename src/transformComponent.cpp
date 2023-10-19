@@ -27,7 +27,28 @@ TransformComponent::TransformComponent(Vector3D pos, bool shouldDrawBasis, const
 
 }
 
+TransformComponent::TransformComponent(Vector3D pos, bool shouldDrawBasis, const FigureComponent *figure, bool isMap)
+{
 
+        std::string figureType = typeid(*figure).name();
+    
+    if (figureType == typeid(TrianguleFigure).name()) {
+        
+        mTriangle = true;
+    }
+    else if(figureType == typeid(CubeFigure).name()){
+        mCube = true;
+    }
+    else if(figureType == typeid(PlaneFigure).name()){
+        mPlane = true;
+    }
+
+    mDrawBasis = shouldDrawBasis;
+    position = pos;
+    _isMap = isMap;
+
+
+}
 
 TransformComponent::~TransformComponent()
 {
@@ -53,6 +74,8 @@ void TransformComponent::init()
 
 void TransformComponent::update(float deltaTime)
 {
+    
+    if(_isMap)return;
     //we always traslate to the current position
     Traslation(position);
 

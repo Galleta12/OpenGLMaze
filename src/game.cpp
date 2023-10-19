@@ -332,7 +332,7 @@ void Game::setUpShaderAndBuffers()
 	
 
 
-	PlaneFigure *plane = &planeEntity.addComponent<PlaneFigure>(*shaderProgram,Vector3D(20.0f,1.0f,20.0f), *planeTex);
+	PlaneFigure *plane = &planeEntity.addComponent<PlaneFigure>(*shaderProgram,Vector3D(30.0f,1.0f,30.0f), *planeTex);
 	planeEntity.addComponent<TransformComponent>(Vector3D(0.0f,0.0f,0.0f),true,plane);
 
 	planeEntity.addGroup(groupPlane);

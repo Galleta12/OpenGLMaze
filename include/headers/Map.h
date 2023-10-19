@@ -26,18 +26,14 @@ class Map : public Entity{
 
         Shader* shader;
         void setUpTexture(Shader &shader);
+   
         
         void SetUpMapX(Manager &mManager);
-        void SetUpMapY(Manager &mManager);
-        
-        void CalculateScaleX(int &counter,int row, int col,float &scaleFactorX, int checkDigit);
-        void CalculateScaleY(int &row,int col,float &scaleFactorY , int checkDigit);
-
-        void GenerateUnRotatedWall(float row, float col, float scaleFactorX,Manager &mManager);
-        void GenerateRotatedWall(float row, float col, float scaleFactorY,Manager &mManager);
+        void GenerateUnRotatedWall(float row, float col,Manager &mManager);
+        void GenerateRotatedWall(float row, float col,Manager &mManager);
 
 
-
+        float tmpAngle = 0.0f;
         std::vector<Entity*> objects;
 
 };

@@ -31,12 +31,13 @@ class TransformComponent : public Component{
         Vector3D forward;
 
         bool isPlayer=false;
-        
+        bool _isMap = false;    
         
         Vector3D OrientationVector = Vector3D(1.0f,0.0f,1.0f);
 
         
         TransformComponent(Vector3D pos, bool shouldDrawBasis,const FigureComponent *figure);
+        TransformComponent(Vector3D pos, bool shouldDrawBasis,const FigureComponent *figure, bool isMap);
                 
         
         ~TransformComponent();
