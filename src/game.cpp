@@ -46,6 +46,7 @@ Texture *brickTex = nullptr;
 Texture *rotateTex = nullptr;
 Texture *planeTex = nullptr;
 
+
 ModelMatrix *modelMatrix = nullptr;
 
 ModelMatrix *lightModelMatrix = nullptr;
@@ -203,10 +204,16 @@ void Game::update(float deltaTime)
 
 	TransformComponent *cube = &randomCube.getComponent<TransformComponent>(); 
 	
+	TransformComponent *planeTranform = &planeEntity.getComponent<TransformComponent>(); 
+	
 	
 	tra->Scale(Vector3D(1.0f,5.0f,1.0f));
 
 	cube->Scale(cube->getMainFigureComponent()->scaleFactorFigure);
+
+
+	planeTranform->Scale(planeTranform->getMainFigureComponent()->scaleFactorFigure);
+	
 
 
 	physicsLoop(deltaTime);
@@ -318,9 +325,14 @@ void Game::setUpShaderAndBuffers()
 	
 	
 	//plane tex
-	planeTex = new Texture("planks.png.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+	planeTex = new Texture("planks.png", GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE);
     
     planeTex->texUnit(*shaderProgram, "tex0", 0);
+	
+	//the specular is create inside the plane class
+
+
+
 
 	
 	//initialize entities
@@ -353,12 +365,17 @@ void Game::setUpShaderAndBuffers()
 	
 	mainPlayer = dynamic_cast<Player*>(&manager.addEntityClass<Player>(*shaderProgram,*rotateTex));
 	
+
+
+
 	//plane
 
-	planeEntity.addComponent<PlaneFigure>(*shaderProgram,Vector3D(1.0f,1.0f,1.0f), *planeTex);
-
+	PlaneFigure *plane = &planeEntity.addComponent<PlaneFigure>(*shaderProgram,Vector3D(10.0f,1.0f,10.0f), *planeTex);
+	planeEntity.addComponent<TransformComponent>(Vector3D(0.0f,-2.0f,0.0f),true,plane);
 
 	planeEntity.addGroup(groupPlane);
+
+
 
 
 	// Shader for light cube
@@ -394,7 +411,7 @@ void Game::setUpEntities()
 
 	lightModelMatrix = new ModelMatrix();
 	lightModelMatrix->loadIdentity();
-	lightModelMatrix->traslation(Vector3D(1.5f, 1.5f, 0.5f));
+	lightModelMatrix->traslation(Vector3D(-3.0f, -1.3f, 0.0f));
 	
 	lightShader->use();
 
@@ -409,7 +426,7 @@ void Game::setUpEntities()
 
 
 	shaderProgram->set_light_color(1.0f, 1.0f, 1.0f, 1.0f);
-	shaderProgram->set_light_position(1.5f, 1.5f, 0.5f);
+	shaderProgram->set_light_position(-3.0f, -1.3f, 0.0f);
 
 
 	mainCamera = dynamic_cast<MainCamera*>(&manager.addEntityClass<MainCamera>());
@@ -496,6 +513,16 @@ void Game::drawFirstViewPort()
 	
 	// Draw primitives, number of indices, datatype of indices, index of indices
 	glDrawElements(GL_TRIANGLES, sizeof(lightIndices) / sizeof(int), GL_UNSIGNED_INT, 0);
+
+	
+
+
+
+
+
+
+
+
 
 
 

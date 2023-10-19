@@ -16,6 +16,7 @@ class FigureComponent;
 class TrianguleFigure;
 class CubeFigure;
 class RayFigure;
+class PlaneFigure;
 class TransformComponent : public Component{
     public:
         
@@ -78,6 +79,7 @@ class TransformComponent : public Component{
                 
         bool mCube= false;
         bool mTriangle= false;
+        bool mPlane = false;
         bool mDrawBasis = false;
 
 };  

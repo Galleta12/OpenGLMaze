@@ -59,7 +59,7 @@ class  FigureComponent : public Component{
         int indicesArraySize;
         //by default 1,1,1
         Vector3D scaleFactorFigure;
-
+    
     
     private:
         
@@ -78,6 +78,7 @@ class  FigureComponent : public Component{
 
         Texture *texture;
 
-       
+    protected:
+        Texture *specularTex  = nullptr;   
 
 };

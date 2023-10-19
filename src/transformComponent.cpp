@@ -2,6 +2,7 @@
 #include "TrianguleFigure.h"
 #include "CubeFigure.h"
 #include "RayFigure.h"
+#include "PlaneFigure.h"
 #include <typeinfo>
 
 TransformComponent::TransformComponent(Vector3D pos, bool shouldDrawBasis, const FigureComponent *figure)
@@ -15,6 +16,9 @@ TransformComponent::TransformComponent(Vector3D pos, bool shouldDrawBasis, const
     }
     else if(figureType == typeid(CubeFigure).name()){
         mCube = true;
+    }
+    else if(figureType == typeid(PlaneFigure).name()){
+        mPlane = true;
     }
 
     mDrawBasis = shouldDrawBasis;
@@ -37,6 +41,10 @@ void TransformComponent::init()
     }
     else if(mCube){
         mainFigureComponent = &entity->getComponent<CubeFigure>();
+
+    }
+    else if(mPlane){
+        mainFigureComponent = &entity->getComponent<PlaneFigure>();
 
     }
 

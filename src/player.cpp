@@ -16,10 +16,20 @@ Player::Player(Manager &mManager, Shader& shader, Texture &tex)
 :Entity(mManager)
 {
     
+    
+    redtex = new Texture("red.png", GL_TEXTURE_2D, 0,  GL_RED, GL_UNSIGNED_BYTE);
+    
+    redtex->texUnit(shader, "tex0", 0);
+    
 
     CubeFigure *cube  = &Entity::addComponent<CubeFigure>(shader,Vector3D(1.0f,1.0f,1.0f),tex);
     
-    ray  = &Entity::addComponent<RayFigure>(shader,Vector3D(1.0f,1.0f,1.0f),tex,Vector3D(0.050f,0.050f,2.5f) );
+    
+    //generate texture for the ray
+    
+    
+    
+    ray  = &Entity::addComponent<RayFigure>(shader,Vector3D(1.0f,1.0f,1.0f),*redtex,Vector3D(0.050f,0.050f,2.5f));
     
     
     

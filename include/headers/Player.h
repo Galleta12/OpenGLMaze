@@ -36,6 +36,8 @@ class Player: public Entity{
         
         float mSpeed = 5.0f;
 
+        Texture *redtex = nullptr;
+
         Vector3D mDirection;
         Vector3D mDirectionKey;
         TransformComponent *transformComponent;

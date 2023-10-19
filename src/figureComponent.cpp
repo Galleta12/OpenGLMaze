@@ -38,6 +38,11 @@ void FigureComponent::draw(Shader &shader)
 
     // Binds texture so that is appears in rendering
     texture->Bind();
+    
+    //if there is specular tex we bind it
+    // if(specularTex  != nullptr){
+    //     specularTex->Bind();
+    // }
 	// Bind the VAO so OpenGL knows to use it
 	VAO1->Bind();
     
