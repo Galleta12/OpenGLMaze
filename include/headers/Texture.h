@@ -16,13 +16,10 @@ public:
 	
 	Texture(const char* image, GLenum texType, GLuint slot, GLenum format, GLenum pixelType);
 
-	// Assigns a texture unit to a texture
+	//assig a texture unit to texture object
 	void texUnit(Shader& shader, const char* uniform, GLuint unit);
-	// Binds a texture
 	void Bind();
-	// Unbinds a texture
 	void Unbind();
-	// Deletes a texture
 	void Delete();
 };
 #endif
