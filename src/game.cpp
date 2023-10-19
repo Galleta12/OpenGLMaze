@@ -45,6 +45,10 @@ Map* map;
 
 Player* mainPlayer;
 
+LightSource* ligthSource1;
+
+LightSource* ligthSource2;
+
 Manager manager;
 
 auto &cameraOrthoEntity(manager.addEntity());
@@ -293,9 +297,12 @@ void Game::setUpShaderAndBuffers()
 	//start light shader	
 	//generate ligh class
 	//LineSource light1 = dynamic_cast<LineSource*>(&manager.addEntityClass<LineSource>(*shaderProgram,*rotateTex));
-	manager.addEntityClass<LightSource>(*lightShader,Vector3D(-3.0f, 2.3f, -1.0f), Vector3D(1.0f, 1.0f, 1.0f), 1.0f);
+	//manager.addEntityClass<LightSource>(*lightShader,Vector3D(-3.0f, 2.3f, -1.0f), Vector3D(1.0f, 1.0f, 1.0f), 1.0f);
 	
-
+	
+	ligthSource1 = dynamic_cast<LightSource*>(&manager.addEntityClass<LightSource>(*lightShader,Vector3D(-3.0f, 5.3f, -1.0f), Vector3D(1.0f, 1.0f, 1.0f), 1.0f));
+	
+	//ligthSource2 = dynamic_cast<LightSource*>(&manager.addEntityClass<LightSource>(*lightShader,Vector3D(10.0f, 2.3f, -1.0f), Vector3D(1.0f, 0.4f, 0.8f), 1.0f));
 
 
 
@@ -311,8 +318,14 @@ void Game::setUpEntities()
 	//this can be improvement
 	shaderProgram->use();
 	
-	shaderProgram->set_light_color(1.0f, 1.0f, 1.0f, 1.0f);
-	shaderProgram->set_light_position(-3.0f, -1.3f, 0.0f);
+	//the ligth color and position should be the same as the ligth color and position
+	//of the light
+
+
+	// shaderProgram->set_light_color(1.0f, 1.0f, 1.0f, 1.0f);
+	// shaderProgram->set_light_position(-3.0f, -1.3f, 0.0f);
+
+
 
 	mainCamera = dynamic_cast<MainCamera*>(&manager.addEntityClass<MainCamera>());
 	
@@ -357,6 +370,13 @@ void Game::drawFirstViewPort()
 	// Tells OpenGL which Shader Program we want to use
 	shaderProgram->use();
 	// Exports the camera Position to the Fragment Shader for specular lighting
+	
+	
+	
+	
+	setLighPosColorGlobalShader();
+	
+	
 	
 	Vector3D pos = mainCamera->getCameraComponent()->eyePosition;
 
@@ -404,6 +424,8 @@ void Game::drawSecondViewPort()
 
 	// Tells OpenGL which Shader Program we want to use
 	shaderProgram->use();
+	
+	setLighPosColorGlobalShader();
 	// Exports the camera Position to the Fragment Shader for specular lighting
 	
 	//maybe
@@ -443,5 +465,19 @@ void Game::drawSecondViewPort()
        l->draw(*shaderProgram); 
     }
 	
+
+}
+
+void Game::setLighPosColorGlobalShader()
+{
+	Vector3D lighPos = ligthSource1->getPosition();
+	Vector3D lighColor = ligthSource1->getColor();
+	float lastrgbA = ligthSource1->getLastColorA();
+
+	
+	shaderProgram->set_light_color(lighColor.x, lighColor.y, lighColor.z, lastrgbA);
+	
+	shaderProgram->set_light_position(lighPos.x, lighPos.y, lighPos.z);
+
 
 }

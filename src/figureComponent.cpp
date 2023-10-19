@@ -35,7 +35,7 @@ void FigureComponent::draw(Shader &shader)
 {
     if(!isDraw)return;
 
-
+    //shader.use();
     // Binds texture so that is appears in rendering
     texture->Bind();
     

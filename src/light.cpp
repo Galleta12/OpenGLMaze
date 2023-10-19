@@ -57,6 +57,11 @@ void LightSource::draw(Shader &shader)
 {
 	
     //shader.use();
+	//in this case we want to global shader
+	//to set up the colors
+	
+
+
     
     lightShader.use();
     

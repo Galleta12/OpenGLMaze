@@ -60,7 +60,7 @@ class Game{
         void handleOrthoCameraLogic();
         void drawFirstViewPort();
         void drawSecondViewPort();
-        
+        void setLighPosColorGlobalShader();
 
 
 };

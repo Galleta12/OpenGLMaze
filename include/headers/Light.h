@@ -22,8 +22,18 @@ class LightSource : public Entity{
                 
             void draw(Shader &shader) override;
 
+            const Vector3D &getPosition(){
+                return mPosition;
+            };
+            
+            const Vector3D &getColor(){
+                return mColor;
+            };
+            const float &getLastColorA(){
+                return rgba;
+            };
 
-            void setUpArrayBuffer();
+
         private:
             
             float rgba = 0.0f;
@@ -39,5 +49,6 @@ class LightSource : public Entity{
 
             EBO *lightEBO = nullptr;
 
+            void setUpArrayBuffer();
 
 };
