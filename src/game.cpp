@@ -532,6 +532,10 @@ void Game::setLightSpotLight()
 	shaderProgram->set_light_color2(lighColor.x, lighColor.y, lighColor.z, lastrgbA);
 	
 	shaderProgram->set_light_position2(lighPos.x, lighPos.y, lighPos.z);
+		// controls how big the area that is lit up is
+	shaderProgram->set_outer_cone(0.70f);
+	shaderProgram->set_inner_cone(0.75f);
+
 
 	
 }

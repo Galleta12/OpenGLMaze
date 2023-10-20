@@ -102,6 +102,9 @@ Shader::Shader(const char* vertexFile, const char* fragmentFile)
 
 	squareConstantAmbientALoc = glGetUniformLocation(ID, "squareConstantA");
 	squareConstantAmbientBLoc = glGetUniformLocation(ID, "squareConstantB");
+	
+	outConeLoc = glGetUniformLocation(ID, "outerCone");
+	innerConeLoc = glGetUniformLocation(ID, "innerCone");
   
 	materialShininessLoc = glGetUniformLocation(ID, "u_shinisses");
 
@@ -234,6 +237,18 @@ void Shader::set_square_a(float a)
 void Shader::set_square_b(float b)
 {
     glUniform1f(squareConstantAmbientBLoc,b);
+
+}
+
+void Shader::set_outer_cone(float a)
+{
+    glUniform1f(outConeLoc,a);
+
+}
+
+void Shader::set_inner_cone(float b)
+{
+	glUniform1f(innerConeLoc,b);
 
 }
 

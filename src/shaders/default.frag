@@ -40,6 +40,8 @@ uniform float squareConstantB;
 
 uniform float u_shinisses;
 
+uniform float outerCone = 0.50f;
+uniform float innerCone = 0.55f;
 
 //the intensity of how far the ligth can reach
 //smaller than one if the light reach far
@@ -62,10 +64,7 @@ vec4 calculatePointLight(){
 	// float b = 0.01;
 	float inten = 1.0f / (squareConstantA * dist * dist + squareConstantB * dist + 1.0f);
 	
-	
-	// ambient lighting
-	//float global_ambient = 0.20f;
- 
+
 	// diffuse lighting
 	//get the v_normal of the position
 	vec3 v_normal = normalize(Normal);
@@ -97,47 +96,44 @@ vec4 calculatePointLight(){
 	return (texture(tex0,uv_coordinates_tex)* (lambert * inten + global_ambient) + texture(tex1,uv_coordinates_tex).r * specular * inten) * lightColor;
 }
 
-// vec4 calculateDirectionLight(){
+vec4 calculateDirectionLight(){
 
-// 	// ambient lighting
-// 	float ambient = 0.20f;
+
  
-// 	// diffuse lighting
-// 	vec3 normal = normalize(Normal);
+	// diffuse lighting
+	vec3 normal = normalize(Normal);
 	
 	
-// 	//point in the opposite direction that u want to face
-// 	//vec3 lightDirection = normalize(vec3(1.0f, 1.0f, 0.0f));
+	//point in the opposite direction that u want to face
 	
-// 	vec3 lightDirection = normalize(u_eye_position);
+	vec3 v_s = normalize(vec3(1.0f, 1.0f, 0.0f));
 	
 	
-// 	float diffuse = max(dot(normal, lightDirection), 0.0f);
+	float diffuse = max(dot(normal, v_s), 0.0f);
 
-// 	// specular lighting
-// 	float specularLight = 0.50f;
-// 	vec3 viewDirection = normalize(u_eye_position - position);
-// 	vec3 reflectionDirection = reflect(-lightDirection, normal);
-// 	//float specAmount = pow(max(dot(viewDirection, reflectionDirection), 0.0f), 16);
-// 	float specAmount = pow(max(dot(viewDirection, reflectionDirection), 0.0f), 16);
-// 	float specular = specAmount * specularLight;
+	vec3 viewDirection = normalize(u_eye_position - position);
+	
+	vec3 reflectionDirection = reflect(-v_s, normal);
+	
+	float specAmount = pow(max(dot(viewDirection, reflectionDirection), 0.0f), u_shinisses);
+	
+	float specular = specAmount * u_ambient_light;
 
-// 	// outputs final color
-// 	// multiply the red value by ths specular light
+	// outputs final color
+	// multiply the red value by ths specular light
 
-// 	return (texture(tex0, uv_coordinates_tex) * (diffuse + ambient) + texture(tex1, uv_coordinates_tex).r * specular) * lightColor;
+	return (texture(tex0, uv_coordinates_tex) * (diffuse + global_ambient) + texture(tex1, uv_coordinates_tex).r * specular) * lightColor;
 
 
 
-// }
+}
 
 
 
 vec4 calculateSpotLight(){
 
-	// controls how big the area that is lit up is
-	float outerCone = 0.50f;
-	float innerCone = 0.55f;
+
+
 
 	vec3 normal = normalize(Normal);
 	
@@ -179,8 +175,6 @@ vec4 calculateCombinedLight() {
 
 void main()
 {
-	
-
 	
 	//FragColor = calculatePointLight();
 	//if we want light to came above it should point up

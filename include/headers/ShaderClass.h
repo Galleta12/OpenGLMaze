@@ -70,6 +70,9 @@ public:
     
     void set_square_a(float a);
     void set_square_b(float b);
+    
+    void set_outer_cone(float a);
+    void set_inner_cone(float b);
 
   
 
@@ -114,11 +117,12 @@ private:
     
     GLuint squareConstantAmbientBLoc;
 
+
+    GLuint outConeLoc;
+    
+    GLuint innerConeLoc;
+
 	
-	
-
-
-
 
 
 	
