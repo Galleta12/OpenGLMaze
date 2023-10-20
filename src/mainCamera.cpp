@@ -25,6 +25,7 @@ void MainCamera::update(float deltaTime)
 
     Inputs(deltaTime);
     RotationCamera(deltaTime);
+    ZoomCamera(deltaTime);
     ApplyNewPosition(deltaTime);
 
 }
@@ -53,9 +54,9 @@ void MainCamera::saveComponents()
     
     
     
+    mCameraComponent->zoom = RadToDegree::ToRadians(90.0f);
     
-    
-    mCameraComponent->setPerspectiveProjection(RadToDegree::ToRadians(45.0f),aspect, 0.1f,100.0f);
+    mCameraComponent->setPerspectiveProjection(mCameraComponent->zoom,aspect, 0.1f,100.0f);
 
 
 
@@ -64,6 +65,16 @@ void MainCamera::saveComponents()
 
 void MainCamera::ZoomCamera(float deltaTime)
 {
+    if (glfwGetKey(Game::window, GLFW_KEY_Z) == GLFW_PRESS){
+          mCameraComponent->zoom -= 0.25f * deltaTime;    
+    }
+     
+    if (glfwGetKey(Game::window, GLFW_KEY_X) == GLFW_PRESS){
+          mCameraComponent->zoom += 0.25f * deltaTime;
+    }
+
+
+
 }
 
 void MainCamera::ApplyNewPosition(float deltaTime)
@@ -74,7 +85,7 @@ void MainCamera::ApplyNewPosition(float deltaTime)
     float aspect =  static_cast<float>(Game::Width / Game::Height);
     
     //mCameraComponent->setPerspectiveProjection(RadToDegree::ToRadians(45.0f),aspect, 0.1f,100.0f);
-    mCameraComponent->setPerspectiveProjection(RadToDegree::ToRadians(90.0f),aspect, 0.1f,100.0f);
+    mCameraComponent->setPerspectiveProjection(mCameraComponent->zoom,aspect, 0.1f,100.0f);
 
 }
 
@@ -144,6 +155,7 @@ void MainCamera::Inputs(float deltaTime)
     {
         adjustedSpeed = 0.1f;
     }
+
 
 
 }
