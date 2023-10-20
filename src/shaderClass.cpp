@@ -94,7 +94,8 @@ Shader::Shader(const char* vertexFile, const char* fragmentFile)
 	
 
 
-	globalAmbientLoc = glGetUniformLocation(ID, "global_ambient");
+
+	lightSpecularLoc = glGetUniformLocation(ID, "u_ligh_specular");
 
 	ambientLightLoc = glGetUniformLocation(ID, "u_ambient_light");
 	
@@ -196,9 +197,9 @@ void Shader::set_light_diffuse(float red, float green, float blue)
 
 
 
-void Shader::set_light_specular(float red, float green, float blue)
+void Shader::set_light_specular(float ambient)
 {
-    glUniform4f(lightSpecularLoc, red, green, blue, 1.0);
+    glUniform1f(lightSpecularLoc, ambient);
 }
 
 

@@ -57,7 +57,7 @@ public:
          
     void set_eye_position(float x, float y, float z);
 
-    void set_light_specular(float red, float green, float blue);
+    void set_light_specular(float ambient);
 
     void set_material_specular(float red, float green, float blue);
        

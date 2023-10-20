@@ -64,15 +64,14 @@ Game::Game()
 {
 
 
-    // Initialize GLFW
 	glfwInit();
 
-	// Tell GLFW what version of OpenGL we are using 
-	// In this case we are using OpenGL 3.3
+	// opengl version 3.3
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	// Tell GLFW we are using the CORE profile
-	// So that means we only have the modern functions
+	
+	// set glfw that we will use the open gl moder functiontions
+		
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 }
@@ -106,10 +105,11 @@ void Game::init(const char *title, int posX, int posY, int width, int height, bo
     // Introduce the window into the current context
 	glfwMakeContextCurrent(window);
 
-	//Load GLAD so it configures OpenGL
+	//load glad for using modern opengl functionalities
 	gladLoadGL();
-	// Specify the viewport of OpenGL in the Window
-	// In this case the viewport goes from x = 0, y = 0, to x = 800, y = 800
+	
+
+	//initial viewport
 	glViewport(0, 0, width, height);
 
     isRunning = true;
@@ -179,25 +179,25 @@ void Game::update(float deltaTime)
 
 void Game::display()
 {
-    // Enables the Depth Buffer
+
 	glEnable(GL_DEPTH_TEST);
-	//glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
+
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     
 	glViewport(0, 0, Width, Height);
-    // Specify the color of the background
-	// Clean the back buffer and depth buffer
+
+	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     
 	drawFirstViewPort();
 	
 	//second viewport
-	// glViewport(orthowViewWidht, orthowViewHeight, orthowViewWidht, orthowViewHeight);
-	// glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	// glClear(GL_DEPTH_BUFFER_BIT);
+	glViewport(orthowViewWidht, orthowViewHeight, orthowViewWidht, orthowViewHeight);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClear(GL_DEPTH_BUFFER_BIT);
 
-	// drawSecondViewPort();
+	drawSecondViewPort();
 
 
     // Swap the back buffer with the front buffer
@@ -307,7 +307,7 @@ void Game::setUpShaderAndBuffers()
 	
 	ligthSource1 = dynamic_cast<LightSource*>(&manager.addEntityClass<LightSource>(*lightShader,Vector3D(5.0f, 5.3f, -1.0f), Vector3D(1.0f, 1.0f, 1.0f), 1.0f,1));
 	
-	ligthSource2 = dynamic_cast<LightSource*>(&manager.addEntityClass<LightSource>(*lightShader2,Vector3D(10.0f, 2.3f, -1.0f), Vector3D(1.0f, 0.4f, 0.8f), 0.3f,2));
+	ligthSource2 = dynamic_cast<LightSource*>(&manager.addEntityClass<LightSource>(*lightShader2,Vector3D(5.0f, 2.3f, -1.0f), Vector3D(1.0f, 0.4f, 0.8f), 0.3f,2));
 
 
 
@@ -320,7 +320,7 @@ void Game::setUpEntities()
 {
 
 	//set up the initial light color and position on the shader
-	//this can be improvement
+	//this can be improved
 	shaderProgram->use();
 	
 	//the ligth color and position should be the same as the ligth color and position
@@ -372,11 +372,17 @@ void Game::handleOrthoCameraLogic()
 void Game::drawFirstViewPort()
 {
 
-	// Tells OpenGL which Shader Program we want to use
+	// set the current shader
 	shaderProgram->use();
-	// Exports the camera Position to the Fragment Shader for specular lighting
-	
-	Vector3D pos = mainCamera->getCameraComponent()->eyePosition;
+	//use the camera pos for the specular lighthing
+	Vector3D pos;
+	if(cameraViewState == MAINCAMERA){
+
+		pos = mainCamera->getCameraComponent()->getViewMatrixPointer()->getVectorEye();
+	}
+	else if (cameraViewState == FIRTPLAYERCAM){
+		pos = mainPlayer->getCamaraEntityPlayer()->getViewMatrixPointer()->getVectorEye();
+	}
 	//Vector3D pos = mainCamera->getCameraComponent()->eyePosition;
 
 	shaderProgram->set_eye_position(pos.x, pos.y, pos.z);
@@ -404,7 +410,7 @@ void Game::drawFirstViewPort()
 	
 	
 	
-	// Tells OpenGL which Shader Program we want to use
+	// opengl set the shader that we would use
 	
 	//we are already using the light on the light shader entity
 	lightShader->use();
@@ -420,7 +426,7 @@ void Game::drawFirstViewPort()
 	
 	lightShader2->use();
 	
-	// Export the camMatrix to the Vertex Shader of the light cube	
+	// for drawing the second light
 	for(auto& c : camerasWorld){
         c->draw(*lightShader); 
     }
@@ -476,7 +482,7 @@ void Game::drawSecondViewPort()
     }
 	
 	
-	// Tells OpenGL which Shader Program we want to use
+
 	
 	lightShader->use();
 	
@@ -514,7 +520,7 @@ void Game::setLighPosColorGlobalShader()
 	
 	shaderProgram->set_light_position(lighPos.x, lighPos.y, lighPos.z);
 
-	shaderProgram->set_global_ambient(0.20f);
+	shaderProgram->set_light_specular(0.20f);
 	
 	shaderProgram->set_ambient_light(0.50f);
 	
@@ -533,7 +539,7 @@ void Game::setLightSpotLight()
 	shaderProgram->set_light_color2(lighColor.x, lighColor.y, lighColor.z, lastrgbA);
 	
 	shaderProgram->set_light_position2(lighPos.x, lighPos.y, lighPos.z);
-		// controls how big the area that is lit up is
+	// controls how big the of the spot should be
 	shaderProgram->set_outer_cone(0.70f);
 	shaderProgram->set_inner_cone(0.75f);
 

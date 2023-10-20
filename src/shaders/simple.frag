@@ -4,16 +4,16 @@
 out vec4 FragColor;
 
 
-// Imports the color from the Vertex Shader
+// imporver from the vert shader
 in vec3 color;
 // Imports the texture coordinates from the Vertex Shader
 in vec2 uv_coordinates_tex;
-// Imports the normal from the Vertex Shader
+// impott the normal
 in vec3 Normal;
 // Imports the current position from the Vertex Shader
 in vec3 position;
 
-// Gets the Texture Unit from the main function
+// get the texture units
 uniform sampler2D tex0;
 //get second texture
 uniform sampler2D tex1;
@@ -31,8 +31,8 @@ uniform vec3 lightPos2;
 uniform vec3 u_eye_position;
 
 //this is fed by the main program
-uniform float global_ambient;
 //specular light
+uniform float u_ligh_specular;
 uniform float u_ambient_light;
 
 uniform float squareConstantA;
@@ -40,11 +40,11 @@ uniform float squareConstantB;
 
 uniform float u_shinisses;
 
-uniform float outerCone = 0.50f;
-uniform float innerCone = 0.55f;
+uniform float outerCone;
+uniform float innerCone;
 
 //the intensity of how far the ligth can reach
-//smaller than one if the light reach far
+//smaller than one and the light can reach further
 
 vec4 calculatePointLight(){
 	
@@ -93,7 +93,7 @@ vec4 calculatePointLight(){
 	// outputs final color
 	// multiply the red value by ths specular light
 
-	return (texture(tex0,uv_coordinates_tex)* (lambert * inten + global_ambient) + texture(tex1,uv_coordinates_tex).r * specular * inten) * lightColor;
+	return (texture(tex0,uv_coordinates_tex)* (lambert * inten + u_ligh_specular) + texture(tex1,uv_coordinates_tex).r * specular * inten) * lightColor;
 }
 
 vec4 calculateDirectionLight(){
@@ -122,7 +122,7 @@ vec4 calculateDirectionLight(){
 	// outputs final color
 	// multiply the red value by ths specular light
 
-	return (texture(tex0, uv_coordinates_tex) * (diffuse + global_ambient) + texture(tex1, uv_coordinates_tex).r * specular) * lightColor;
+	return (texture(tex0, uv_coordinates_tex) * (diffuse + u_ligh_specular) + texture(tex1, uv_coordinates_tex).r * specular) * lightColor;
 
 
 
@@ -151,13 +151,13 @@ vec4 calculateSpotLight(){
 	float phong = pow(max(dot(viewDirection, reflectionDirection), 0.0f), u_shinisses);
 	float specular = phong * u_ambient_light;
 
-	// calculates the intensity of the position based on its angle to the center of the light cone
+	//caulculate the intensity of the position on angle to the center of the light.
 	float angle = dot(vec3(0.0f, -1.0f, 0.0f), -v_s);
 	float inten = clamp((angle - outerCone) / (innerCone - outerCone), 0.0f, 1.0f);
 
 	
 	
-	return (texture(tex0, uv_coordinates_tex) * (lambert * inten + global_ambient) + texture(tex1, uv_coordinates_tex).r * specular * inten) * lightColor2;
+	return (texture(tex0, uv_coordinates_tex) * (lambert * inten + u_ligh_specular) + texture(tex1, uv_coordinates_tex).r * specular * inten) * lightColor2;
 
 
 }
@@ -176,8 +176,7 @@ vec4 calculateCombinedLight() {
 void main()
 {
 	
-	//FragColor = calculatePointLight();
-	//if we want light to came above it should point up
+	
 	//FragColor =  calculateDirectionLight();
 	FragColor =   calculateCombinedLight();
 }

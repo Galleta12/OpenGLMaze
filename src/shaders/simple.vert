@@ -10,40 +10,40 @@ layout (location = 2) in vec2 aTex;
 layout (location = 3) in vec3 aNormal;
 
 
-// Outputs the color for the Fragment Shader
+//out puts for the fragment
 out vec3 color;
-// Outputs the texture coordinates to the Fragment Shader
+
 out vec2 uv_coordinates_tex;
-// Outputs the normal for the Fragment Shader
+
 out vec3 Normal;
-// Outputs the current position for the Fragment Shader
+
 out vec3 position;
 
-// Imports the camera matrix from the main function
+// Imports of the matrix
 uniform mat4 u_projection_matrix;
-// Imports the model matrix from the main function
+// Imports the model matrix from 
 uniform mat4 model;
 
-//view matrix
+//Import view matrix
 uniform mat4 u_view_matrix;
 
 void main()
 {
-	// calculates current position
+	// calculates current position in global space
 	vec3 global_position= vec3(model * vec4(aPos, 1.0f));
 
-	//position = vec3(model * vec4(aPos, 1.0f));
-	
+	//eye coordinates
 	position = vec3(u_view_matrix *vec4(global_position, 1.0f));
 	
 	
 	// Outputs the positions/coordinates of all vertices
+	//in clip space
 	gl_Position = u_projection_matrix * vec4(position, 1.0);
 
-	// Assigns the colors from the Vertex Data to "color"
+	// Assigns the colors from the vertex data
 	color = aColor;
-	// Assigns the texture coordinates from the Vertex Data to "uv_coordinates_tex"
+	// Assigns the texture coordinates from from the vertex data to the uv_coordiantes
 	uv_coordinates_tex = aTex;
-	// Assigns the normal from the Vertex Data to "Normal"
+	// assig the normal to the normal for the fragment shader
 	Normal = aNormal;
 }
