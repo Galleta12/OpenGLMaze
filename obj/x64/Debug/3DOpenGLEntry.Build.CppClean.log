@@ -1,5 +1,6 @@
 d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplemaze\obj\x64\debug\vc143.pdb
 d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplemaze\obj\x64\debug\vc143.idb
+d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplemaze\obj\x64\debug\transformcomponent.obj
 d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplemaze\obj\x64\debug\texture.obj
 d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplemaze\obj\x64\debug\stb.obj
 d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplemaze\obj\x64\debug\shaderclass.obj
@@ -12,7 +13,6 @@ d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplem
 d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplemaze\obj\x64\debug\map.obj
 d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplemaze\obj\x64\debug\maincamera.obj
 d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplemaze\obj\x64\debug\ebo.obj
-d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplemaze\obj\x64\debug\camera.obj
 d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplemaze\obj\x64\debug\main.obj
 d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplemaze\obj\x64\debug\light.obj
 d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplemaze\obj\x64\debug\game.obj
@@ -24,7 +24,6 @@ d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplem
 d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplemaze\obj\x64\debug\vbo.obj
 d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplemaze\obj\x64\debug\vao.obj
 d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplemaze\obj\x64\debug\triangulefigure.obj
-d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplemaze\obj\x64\debug\transformcomponent.obj
 d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplemaze\obj\x64\debug\glad.obj
 d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplemaze\obj\x64\debug\3dopenglentry.ilk
 d:\hr-second=semester=2023\computer graphics\lastassigmentplease\opengl3dsimplemaze\bin\debug\x86_64\3dopenglentry.exe

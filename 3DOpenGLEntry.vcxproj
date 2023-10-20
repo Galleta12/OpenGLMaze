@@ -179,7 +179,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Assigment34Fixes\FirstOpenGL\include\headers\RadToDegree.h" />
-    <ClInclude Include="include\headers\Camera.h" />
     <ClInclude Include="include\headers\CameraComponent.h" />
     <ClInclude Include="include\headers\Components.h" />
     <ClInclude Include="include\headers\CubeFigure.h" />
@@ -213,7 +212,6 @@
     <ClCompile Include="src\game.cpp" />
     <ClCompile Include="src\light.cpp" />
     <ClCompile Include="src\Main.cpp" />
-    <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\ebo.cpp" />
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="src\mainCamera.cpp" />

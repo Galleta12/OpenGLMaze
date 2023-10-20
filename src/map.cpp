@@ -17,26 +17,26 @@ Texture *lava = nullptr;
 
 
 int MapArray[rowSize][colSize] ={
-    {0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,2,0,0,0,0,0,0,0,0},
     {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
     {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-    {0,0,0,0,1,0,0,0,1,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0},
-    {0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0},
     {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0},
-    {0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0},
-    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,2,0,0,0,0,0,0,0,0},
-    {0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, //indice 9 row and col 11//we can say that that is the middle
-    {0,2,0,0,0,0,0,1,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0},
-    {0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-    {0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-    {0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-    {0,2,0,0,0,0,0,1,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0},
-    {0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0},
-    {0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0},
-    {0,0,2,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, //indice 9 row and col 11//we can say that that is the middle
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,2,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
     
 };
 
@@ -46,6 +46,8 @@ int MapArray[rowSize][colSize] ={
 extern Manager manager;
 auto &trigle1( manager.addEntity());
 auto &trigle2( manager.addEntity());
+auto &trigle3( manager.addEntity());
+auto &trigle4( manager.addEntity());
 Map::Map(Manager& mManager, Shader &shader)
 :Entity(mManager)
 {
@@ -103,14 +105,23 @@ void Map::update(float deltaTime)
 
     tra->ScaleFigure(tra->scaleFactorFigure);
     
+
+    //triangle
+    TrianguleFigure *tra3 = &trigle3.getComponent<TrianguleFigure>(); 
+	
+    tra3->ScaleFigure(tra3->scaleFactorFigure);
     
+    TrianguleFigure *tra4 = &trigle4.getComponent<TrianguleFigure>(); 
+	
+    tra4->ScaleFigure(tra4->scaleFactorFigure);
+    
+    
+    //traingle
     TrianguleFigure *tra2 = &trigle2.getComponent<TrianguleFigure>(); 
 	
     tra2->ScaleFigure(tra2->scaleFactorFigure);
     
-
-
-
+    
     tra2->RotationAboutAxisFigure(Vector3D(-1.0f,1.0f,0.0f),tmpAngle);
 
 
@@ -144,6 +155,34 @@ void Map::setUpTexture(Shader &shader)
     trigle1.addComponent<PhysicsComponent>();
 
     trigle1.addGroup(Game::groupColliders);
+
+
+
+
+    TrianguleFigure *tr3 = &trigle3.addComponent<TrianguleFigure>(shader,Vector3D(15.0f,15.0f,15.0f), * lava);
+	
+
+
+
+	trigle3.addComponent<TransformComponent>(Vector3D(-10.0f,0.6f,10.0f),true,tr3);
+	
+    
+    trigle3.addComponent<PhysicsComponent>();
+
+    trigle3.addGroup(Game::groupColliders);
+    
+    
+    TrianguleFigure *tr4 = &trigle4.addComponent<TrianguleFigure>(shader,Vector3D(15.0f,15.0f,15.0f), * lava);
+	
+
+
+
+	trigle4.addComponent<TransformComponent>(Vector3D(20.0f,0.6f,-15.0f),true,tr4);
+	
+    
+    trigle4.addComponent<PhysicsComponent>();
+
+    trigle4.addGroup(Game::groupColliders);
     
 
 

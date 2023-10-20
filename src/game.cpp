@@ -193,10 +193,11 @@ void Game::display()
 	drawFirstViewPort();
 	
 	//second viewport
-	glViewport(orthowViewWidht, orthowViewHeight, orthowViewWidht, orthowViewHeight);
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	glClear(GL_DEPTH_BUFFER_BIT);
-	drawSecondViewPort();
+	// glViewport(orthowViewWidht, orthowViewHeight, orthowViewWidht, orthowViewHeight);
+	// glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	// glClear(GL_DEPTH_BUFFER_BIT);
+
+	// drawSecondViewPort();
 
 
     // Swap the back buffer with the front buffer
@@ -266,7 +267,7 @@ void Game::setUpShaderAndBuffers()
 	
 	
 	
-	shaderProgram = new Shader("default.vert", "default.frag");
+	shaderProgram = new Shader("simple.vert", "simple.frag");
 
 	map = dynamic_cast<Map*>(&manager.addEntityClass<Map>(*shaderProgram));
 

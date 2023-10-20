@@ -9,9 +9,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\headers\Camera.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="include\headers\EBO.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -50,9 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\camera.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\ebo.cpp">
