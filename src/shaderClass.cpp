@@ -86,8 +86,26 @@ Shader::Shader(const char* vertexFile, const char* fragmentFile)
 	
 	lightPosLoc = glGetUniformLocation(ID, "lightPos");
 
+	lightPos2Loc = glGetUniformLocation(ID, "lightPos2");
+	
 	lightColorLoc = glGetUniformLocation(ID, "lightColor");
- 
+	
+	lightColor2Loc = glGetUniformLocation(ID, "lightColor2");
+	
+
+
+	globalAmbientLoc = glGetUniformLocation(ID, "global_ambient");
+
+	ambientLightLoc = glGetUniformLocation(ID, "u_ambient_light");
+	
+
+
+	squareConstantAmbientALoc = glGetUniformLocation(ID, "squareConstantA");
+	squareConstantAmbientBLoc = glGetUniformLocation(ID, "squareConstantB");
+  
+	materialShininessLoc = glGetUniformLocation(ID, "u_shinisses");
+
+
 }
 
 
@@ -153,19 +171,34 @@ void Shader::set_light_position(float x, float y, float z)
     glUniform3f(lightPosLoc, x, y, z);
 }
 
+void Shader::set_light_position2(float x, float y, float z)
+{
+    glUniform3f(lightPos2Loc, x, y, z);
+}
+
 void Shader::set_light_color(float x, float y, float z, float w)
 {
 	glUniform4f(lightColorLoc, x, y, z, w);
+}
+
+void Shader::set_light_color2(float x, float y, float z, float w)
+{
+	glUniform4f(lightColor2Loc, x, y, z, w);
 }
 
 void Shader::set_light_diffuse(float red, float green, float blue)
 {
     glUniform4f(lightDiffuseLoc, red, green, blue, 1.0);
 }
+
+
+
 void Shader::set_light_specular(float red, float green, float blue)
 {
     glUniform4f(lightSpecularLoc, red, green, blue, 1.0);
 }
+
+
 
 void Shader::set_material_diffuse(float red, float green, float blue)
 {
@@ -181,21 +214,28 @@ void Shader::set_material_shininess(float shininess)
     glUniform1f(materialShininessLoc,shininess);
 }
 
-void Shader::set_view_matrixGLM(const glm::mat4 &viewMatrix)
+void Shader::set_global_ambient(float ambient)
 {
-    
-	glUniformMatrix4fv(viewMatrixLoc, 1, GL_FALSE, glm::value_ptr(viewMatrix));
+    glUniform1f(globalAmbientLoc,ambient);
 
 }
 
-
-void Shader::set_Projection_matrixGLM(const glm::mat4 &viewMatrix)
+void Shader::set_ambient_light(float ambient)
 {
-	glUniformMatrix4fv(projectionMatrixLoc, 1, GL_FALSE,glm::value_ptr(viewMatrix));
+    glUniform1f(ambientLightLoc,ambient);
 }
 
+void Shader::set_square_a(float a)
+{
 
+    glUniform1f(squareConstantAmbientALoc,a);
+}
 
+void Shader::set_square_b(float b)
+{
+    glUniform1f(squareConstantAmbientBLoc,b);
+
+}
 
 // Checks if the different Shaders have compiled properly
 void Shader::compileErrors(unsigned int shader, const char* type)

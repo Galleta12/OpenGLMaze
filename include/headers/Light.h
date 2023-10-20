@@ -10,7 +10,7 @@ class LightSource : public Entity{
         
         public:
             
-            LightSource(Manager& mManager,Shader& shader,Vector3D position ,Vector3D color,float a);
+            LightSource(Manager& mManager,Shader& shader,Vector3D position ,Vector3D color,float a, int lighNum);
             
             ~LightSource(){
                 lightVAO->Delete();
@@ -33,6 +33,7 @@ class LightSource : public Entity{
                 return rgba;
             };
 
+            const int numofLight;
 
         private:
             

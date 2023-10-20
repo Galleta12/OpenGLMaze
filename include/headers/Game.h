@@ -61,6 +61,8 @@ class Game{
         void drawFirstViewPort();
         void drawSecondViewPort();
         void setLighPosColorGlobalShader();
+        
+        void setLightSpotLight();
 
 
 };

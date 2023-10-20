@@ -35,6 +35,7 @@ Game::WhoISCamera Game::cameraViewState = Game::WhoISCamera::MAINCAMERA;
 
 Shader *shaderProgram = nullptr;
 Shader *lightShader = nullptr;
+Shader *lightShader2 = nullptr;
 
 Texture *rotateTex = nullptr;
 Texture *planeTex = nullptr;
@@ -180,7 +181,8 @@ void Game::display()
 {
     // Enables the Depth Buffer
 	glEnable(GL_DEPTH_TEST);
-	glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
+	//glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     
 	glViewport(0, 0, Width, Height);
     // Specify the color of the background
@@ -209,6 +211,7 @@ void Game::clean()
 	shaderProgram->Delete();
 	
 	lightShader->Delete();
+	lightShader2->Delete();
 
 	rotateTex->Delete();
 
@@ -283,7 +286,7 @@ void Game::setUpShaderAndBuffers()
 	
 
 
-	PlaneFigure *plane = &planeEntity.addComponent<PlaneFigure>(*shaderProgram,Vector3D(30.0f,1.0f,30.0f), *planeTex);
+	PlaneFigure *plane = &planeEntity.addComponent<PlaneFigure>(*shaderProgram,Vector3D(50.0f,1.0f,50.0f), *planeTex);
 	planeEntity.addComponent<TransformComponent>(Vector3D(0.0f,0.0f,0.0f),true,plane);
 
 	planeEntity.addGroup(groupPlane);
@@ -293,6 +296,7 @@ void Game::setUpShaderAndBuffers()
 
 	// Shader for light cube
 	lightShader = new Shader("light.vert", "light.frag");
+	lightShader2 = new Shader("light2.vert", "light2.frag");
 	// Generates Vertex Array Object and binds it
 	//start light shader	
 	//generate ligh class
@@ -300,9 +304,9 @@ void Game::setUpShaderAndBuffers()
 	//manager.addEntityClass<LightSource>(*lightShader,Vector3D(-3.0f, 2.3f, -1.0f), Vector3D(1.0f, 1.0f, 1.0f), 1.0f);
 	
 	
-	ligthSource1 = dynamic_cast<LightSource*>(&manager.addEntityClass<LightSource>(*lightShader,Vector3D(-3.0f, 5.3f, -1.0f), Vector3D(1.0f, 1.0f, 1.0f), 1.0f));
+	ligthSource1 = dynamic_cast<LightSource*>(&manager.addEntityClass<LightSource>(*lightShader,Vector3D(5.0f, 5.3f, -1.0f), Vector3D(1.0f, 1.0f, 1.0f), 1.0f,1));
 	
-	//ligthSource2 = dynamic_cast<LightSource*>(&manager.addEntityClass<LightSource>(*lightShader,Vector3D(10.0f, 2.3f, -1.0f), Vector3D(1.0f, 0.4f, 0.8f), 1.0f));
+	ligthSource2 = dynamic_cast<LightSource*>(&manager.addEntityClass<LightSource>(*lightShader2,Vector3D(10.0f, 2.3f, -1.0f), Vector3D(1.0f, 0.4f, 0.8f), 0.3f,2));
 
 
 
@@ -371,16 +375,14 @@ void Game::drawFirstViewPort()
 	shaderProgram->use();
 	// Exports the camera Position to the Fragment Shader for specular lighting
 	
-	
-	
-	
-	setLighPosColorGlobalShader();
-	
-	
-	
 	Vector3D pos = mainCamera->getCameraComponent()->eyePosition;
+	//Vector3D pos = mainCamera->getCameraComponent()->eyePosition;
 
 	shaderProgram->set_eye_position(pos.x, pos.y, pos.z);
+	
+	setLighPosColorGlobalShader();
+	setLightSpotLight();
+	
 	
 	for(auto& c : camerasWorld){
        c->draw(*shaderProgram); 
@@ -414,6 +416,21 @@ void Game::drawFirstViewPort()
 	for(auto& l : lightsWorld){
        l->draw(*shaderProgram); 
     }
+	
+	lightShader2->use();
+	
+	// Export the camMatrix to the Vertex Shader of the light cube	
+	for(auto& c : camerasWorld){
+        c->draw(*lightShader); 
+    }
+	
+	for(auto& l : lightsWorld){
+       l->draw(*shaderProgram); 
+    }
+
+
+
+
 
 }
 
@@ -425,7 +442,13 @@ void Game::drawSecondViewPort()
 	// Tells OpenGL which Shader Program we want to use
 	shaderProgram->use();
 	
+
+	//apply global ambient
+
+
+
 	setLighPosColorGlobalShader();
+	setLightSpotLight();
 	// Exports the camera Position to the Fragment Shader for specular lighting
 	
 	//maybe
@@ -465,6 +488,17 @@ void Game::drawSecondViewPort()
        l->draw(*shaderProgram); 
     }
 	
+	lightShader2->use();
+	
+	for(auto& o : orthoCamerasWorld){
+        o->draw(*lightShader);
+        
+    }
+
+	for(auto& l : lightsWorld){
+       l->draw(*shaderProgram); 
+    }
+	
 
 }
 
@@ -479,5 +513,25 @@ void Game::setLighPosColorGlobalShader()
 	
 	shaderProgram->set_light_position(lighPos.x, lighPos.y, lighPos.z);
 
+	shaderProgram->set_global_ambient(0.20f);
+	
+	shaderProgram->set_ambient_light(0.50f);
+	
+	
+	shaderProgram->set_square_a(0.05f);
+	shaderProgram->set_square_b(0.01f);
+}
 
+void Game::setLightSpotLight()
+{
+	Vector3D lighPos = ligthSource2->getPosition();
+	Vector3D lighColor = ligthSource2->getColor();
+	float lastrgbA = ligthSource2->getLastColorA();
+
+	
+	shaderProgram->set_light_color2(lighColor.x, lighColor.y, lighColor.z, lastrgbA);
+	
+	shaderProgram->set_light_position2(lighPos.x, lighPos.y, lighPos.z);
+
+	
 }

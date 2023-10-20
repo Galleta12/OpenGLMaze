@@ -28,8 +28,8 @@ GLuint lightIndices[] =
 };
 
 
-LightSource::LightSource(Manager &mManager, Shader &shader, Vector3D position ,Vector3D color, float a)
-:Entity(mManager), mColor(color),mPosition(position),lightShader(shader),rgba(a)
+LightSource::LightSource(Manager &mManager, Shader &shader, Vector3D position ,Vector3D color, float a, int lighNum)
+:Entity(mManager), mColor(color),mPosition(position),lightShader(shader),rgba(a), numofLight(lighNum)
 {
 
     setUpArrayBuffer();
@@ -39,8 +39,20 @@ LightSource::LightSource(Manager &mManager, Shader &shader, Vector3D position ,V
     
     lightShader.use();
     
+
 	lightShader.set_model_matrix(mModelMatrix->getMatrix());
-	lightShader.set_light_color(color.x, color.y, color.z, a);
+	//this will vary if if is light 2 or light for1
+	//for the light 2 this is the function
+	
+	if(numofLight == 2){
+		
+		lightShader.set_light_color2(color.x, color.y, color.z, a);
+
+	}else{
+		//for the light 1 this is the function
+		lightShader.set_light_color(color.x, color.y, color.z, a);
+
+	}
 
 
 	Entity::addGroup(Game::groupLights);

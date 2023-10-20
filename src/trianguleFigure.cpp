@@ -75,6 +75,13 @@ void TrianguleFigure::drawObject()
     drawTriangle();
 }
 
+void TrianguleFigure::draw(Shader &shader)
+{
+    shader.set_material_shininess(30.0f);
+    FigureComponent::draw(shader);
+
+}
+
 void TrianguleFigure::drawTriangle()
 {
 	glDrawElements(GL_TRIANGLES,  indicesArraySize / sizeof(int), GL_UNSIGNED_INT, 0);

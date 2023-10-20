@@ -45,7 +45,11 @@ public:
 
     void set_light_position(float x, float y, float z);
     
+    void set_light_position2(float x, float y, float z);
+    
     void set_light_color(float x, float y, float z, float w);
+    
+    void set_light_color2(float x, float y, float z, float w);
         
     void set_light_diffuse(float red, float green, float blue);
         
@@ -58,10 +62,16 @@ public:
     void set_material_specular(float red, float green, float blue);
        
     void set_material_shininess(float shininess);
-
-    void set_view_matrixGLM(const glm::mat4& viewMatrix);
+   
+    void set_global_ambient(float ambient);
     
-    void set_Projection_matrixGLM(const glm::mat4& viewMatrix);
+    void set_ambient_light(float ambient);
+    
+    
+    void set_square_a(float a);
+    void set_square_b(float b);
+
+  
 
 
 private:
@@ -73,7 +83,11 @@ private:
     
     GLuint lightPosLoc;
     
+    GLuint lightPos2Loc;
+    
     GLuint lightColorLoc;
+    
+    GLuint lightColor2Loc;
     
     GLuint lightDiffuseLoc;
     
@@ -85,13 +99,28 @@ private:
     
     GLuint materialSpecularLoc;  
     
-    GLuint materialShininessLoc;
     
     GLuint viewMatrixLoc;
     
     GLuint projectionMatrixLoc;
+    
+    GLuint materialShininessLoc;
+
+
+    GLuint globalAmbientLoc;
+    GLuint ambientLightLoc;
+    
+    GLuint squareConstantAmbientALoc;
+    
+    GLuint squareConstantAmbientBLoc;
 
 	
+	
+
+
+
+
+
 	
 	
 	// Checks if the different Shaders have compiled properly

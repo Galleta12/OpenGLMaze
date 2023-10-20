@@ -18,7 +18,7 @@ class CubeFigure : public FigureComponent{
             
             void drawObject() override;
 
-
+            void draw(Shader &shader) override;
 
         private:
             void drawCube();

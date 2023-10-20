@@ -18,6 +18,7 @@ class TrianguleFigure: public FigureComponent{
         
         void drawObject() override;
 
+        void draw(Shader &shader) override;
 
 
     private:

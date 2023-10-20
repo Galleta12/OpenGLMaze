@@ -95,8 +95,15 @@ void CubeFigure::applyTransforms()
 }
 
 void CubeFigure::drawObject()
-{
+{   
+    
     drawCube();
+}
+
+void CubeFigure::draw(Shader &shader)
+{
+    shader.set_material_shininess(8.0f);
+    FigureComponent::draw(shader);
 }
 
 //draw

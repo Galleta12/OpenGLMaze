@@ -54,7 +54,10 @@ void PlaneFigure::drawObject()
 
 void PlaneFigure::draw(Shader &shader)
 {
+    //for specular calculations
     specularTex->Bind();
+    //shininess
+    shader.set_material_shininess(16.0f);
     FigureComponent::draw(shader);
 
 }

@@ -240,6 +240,10 @@
     <Image Include="RotateTriangle.png" />
     <Image Include="wood.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="src\shaders\light2.vert" />
+    <None Include="src\shaders\light2.frag" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
