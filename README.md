@@ -11,6 +11,7 @@ It will rotate the camera.
 
 With 1 and 2 u can change the camera view. It will start with the main camera. but if you press 2 it will change to the camera of the player that is a cube.
 The player is control with the arrows keys and the movement is relaitve to where the first view camera is poiting. there is a simple aabb collision checker.
+The player can rotate with q and e.
 
 When running it may take a little bit to load since it loading all the textures files and this can take some time. THe texture coordinates, normal position and the vertices
 are handle by a big array, that contains all of this data and this will be imported to opengl.
@@ -37,7 +38,7 @@ Even though this allow me to have more flexibility it can be improved. since it 
 
 I would say that the main functionalities are the transform physics camera and figure component. all of the other classes are derived from this main components. 
 
-All of my code is on the src file the shaders on srs/shaders and the headers file on include/headers.
+All of my code is on the src file the shaders on src/shaders and the headers file on include/headers.
 
 You can use my premake5 script for generating a vs solution file. You can open this file that is a .sln and with just press play and the program will run. Please be sure to have c++ installed on your computer.
 You can also just run the .exe file that is on the root directory. However this .exe file always needs to be on the root directory to avoid any errors.
