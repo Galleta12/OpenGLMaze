@@ -50,6 +50,7 @@ class LightSource : public Entity{
 
             EBO *lightEBO = nullptr;
 
+            float tempAngle = 0.0f;
             void setUpArrayBuffer();
 
 };

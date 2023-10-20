@@ -51,6 +51,10 @@ void MainCamera::saveComponents()
     //for now the aspct ration is
     float aspect =  static_cast<float>(Game::Width / Game::Height);
     
+    
+    
+    
+    
     mCameraComponent->setPerspectiveProjection(RadToDegree::ToRadians(45.0f),aspect, 0.1f,100.0f);
 
 

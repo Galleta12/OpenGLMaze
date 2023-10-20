@@ -488,16 +488,16 @@ void Game::drawSecondViewPort()
        l->draw(*shaderProgram); 
     }
 	
-	lightShader2->use();
+	// lightShader2->use();
 	
-	for(auto& o : orthoCamerasWorld){
-        o->draw(*lightShader);
+	// for(auto& o : orthoCamerasWorld){
+    //     o->draw(*lightShader);
         
-    }
+    // }
 
-	for(auto& l : lightsWorld){
-       l->draw(*shaderProgram); 
-    }
+	// for(auto& l : lightsWorld){
+    //    l->draw(*shaderProgram); 
+    // }
 	
 
 }

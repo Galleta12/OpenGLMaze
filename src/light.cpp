@@ -85,10 +85,17 @@ void LightSource::draw(Shader &shader)
 
 	//modelmatrix of light
     lightShader.set_model_matrix(mModelMatrix->getMatrix());
-	lightShader.set_light_color(mColor.x, mColor.y, mColor.z, rgba);
+	if(numofLight==1){
+
+		lightShader.set_light_color(mColor.x, mColor.y, mColor.z, rgba);
+		
+	}else{
+		lightShader.set_light_color2(mColor.x, mColor.y, mColor.z, rgba);
+
+	}
 
     glDrawElements(GL_TRIANGLES, sizeof(lightIndices) / sizeof(int), GL_UNSIGNED_INT, 0);
-
+	mModelMatrix->popMatrix();
 }
 
 void LightSource::setUpArrayBuffer()
