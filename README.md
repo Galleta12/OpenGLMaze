@@ -1,5 +1,5 @@
 # OpenGLMaze
-This is my opengl version, using opengl 3.3
+This is my first opengl 3D application. Is using opengl 3.3
 
 The controls are the following.
 
