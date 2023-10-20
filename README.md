@@ -41,3 +41,5 @@ All of my code is on the src file the shaders on srs/shaders and the headers fil
 
 You can use my premake5 script for generating a vs solution file. You can open this file that is a .sln and with just press play and the program will run. Please be sure to have c++ installed on your computer.
 You can also just run the .exe file that is on the root directory. However this .exe file always needs to be on the root directory to avoid any errors.
+
+![opengGLMaze](https://github.com/Galleta12/OpenGLMaze/assets/79543944/29f4a5ef-405b-4c93-ad43-5f91db6ec765)
