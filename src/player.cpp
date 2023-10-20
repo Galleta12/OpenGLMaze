@@ -113,8 +113,16 @@ void Player::playerTraslation(float deltaTime)
     
     float adjustedSpeed = mSpeed * deltaTime;
     
-   
-
+    
+    
+    
+    std::cout << "ortientation glm" << glm::to_string(newOrientation) << std::endl;
+    std::cout << "my forward" << transformComponent->forward << std::endl;
+    
+    
+    
+    std::cout << "right view camera          " << mFirsViewCamera->getViewMatrixPointer()->getViewX()<< std::endl;
+    std::cout << "forward view camera       " << mFirsViewCamera->getViewMatrixPointer()->getViewZ() << std::endl;
     
     Vector3D keyDir(0.0f, 0.0f, 0.0f);
 
@@ -138,9 +146,12 @@ void Player::playerTraslation(float deltaTime)
     }
 
 
+    float delZ = keyDir.z * adjustedSpeed;
+    float delX = keyDir.x * adjustedSpeed;
      
     
-     transformComponent->position +=  keyDir * adjustedSpeed;
+     transformComponent->position +=  mFirsViewCamera->getViewMatrixPointer()->getViewZ() * delZ  +  mFirsViewCamera->getViewMatrixPointer()->getViewX() *delX;
+    
     
     
     
@@ -162,25 +173,43 @@ void Player::playerRotation(float deltaTime)
     float angleRot = RadToDegree::PI * deltaTime;
     
     
-    
     if (glfwGetKey(Game::window, GLFW_KEY_Q) == GLFW_PRESS) {
         
         angleRotationY -= RadToDegree::PI * deltaTime;
         
-        transformComponent->OrientationVector = Vector3D::Rotation(transformComponent->OrientationVector,Vector3D::UP(),angleRotationY);        
         mFirsViewCamera->getViewMatrixPointer()->TurnFirstCamView(angleRot);
+
+        transformComponent->forward = Vector3D::RotateVectorAboutAxis(transformComponent->forward,Vector3D::UP(),angleRot);
+        transformComponent->right = Vector3D::RotateVectorAboutAxis(transformComponent->right,Vector3D::UP(),angleRot);
+         
+        newOrientation = glm::rotate(newOrientation, glm::radians(angleRot), glm::vec3(0.0f, 1.0f, 0.0f));
     
     }
 
     else if (glfwGetKey(Game::window, GLFW_KEY_E) == GLFW_PRESS) {
         
         angleRotationY += RadToDegree::PI * deltaTime;
-        transformComponent->OrientationVector = Vector3D::Rotation(transformComponent->OrientationVector,Vector3D::UP(),angleRotationY);
         mFirsViewCamera->getViewMatrixPointer()->TurnFirstCamView(-angleRot);
+
+        transformComponent->forward = Vector3D::RotateVectorAboutAxis(transformComponent->forward,Vector3D::UP(),-angleRot);
+        transformComponent->right = Vector3D::RotateVectorAboutAxis(transformComponent->right,Vector3D::UP(),-angleRot);
+        
+        newOrientation = glm::rotate(newOrientation, glm::radians(-angleRot), glm::vec3(0.0f, 1.0f, 0.0f));
+
+
 
     }
     
+    
+//    transformComponent->forward.x = newOrientation.x;
+//    transformComponent->forward.y = newOrientation.y;
+//    transformComponent->forward.z = newOrientation.z;
    
+   //std::cout << "forward" << transformComponent->forward << std::endl;
+   //std::cout << "ortientation glm" << glm::to_string(newOrientation) << std::endl;
+
+
+
     transformComponent->RotationAboutAxis(Vector3D::UP(),angleRotationY);
      
     ray->RotationAboutAxisFigure(Vector3D::UP(),angleRotationY);

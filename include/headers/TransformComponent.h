@@ -25,10 +25,11 @@ class TransformComponent : public Component{
         //basis vectors,
 
         // 1,0,0
-        Vector3D right;
+        Vector3D right=  Vector3D(1.0f,0.0f,0.0f);
         Vector3D up;
         //0,0,1
-        Vector3D forward;
+        //in open gl -1 is twoards screen
+        Vector3D forward = Vector3D(0.0f,0.0f,-1.0f);
 
         bool isPlayer=false;
         bool _isMap = false;    
