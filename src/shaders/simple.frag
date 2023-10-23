@@ -106,23 +106,23 @@ vec4 calculateDirectionLight(){
 	
 	//point in the opposite direction that u want to face
 	
-	vec3 v_s = normalize(vec3(1.0f, 1.0f, 0.0f));
+	vec3 v_s = normalize(vec3(u_eye_position));
 	
 	
-	float diffuse = max(dot(normal, v_s), 0.0f);
+	float lambert = max(dot(normal, v_s), 0.0f);
 
 	vec3 viewDirection = normalize(u_eye_position - position);
 	
 	vec3 reflectionDirection = reflect(-v_s, normal);
 	
-	float specAmount = pow(max(dot(viewDirection, reflectionDirection), 0.0f), u_shinisses);
+	float phong = pow(max(dot(viewDirection, reflectionDirection), 0.0f), u_shinisses);
 	
-	float specular = specAmount * u_ambient_light;
+	float specular = phong * u_ambient_light;
 
 	// outputs final color
 	// multiply the red value by ths specular light
 
-	return (texture(tex0, uv_coordinates_tex) * (diffuse + u_ligh_specular) + texture(tex1, uv_coordinates_tex).r * specular) * lightColor;
+	return (texture(tex0, uv_coordinates_tex) * (lambert + u_ligh_specular) + texture(tex1, uv_coordinates_tex).r * specular) * lightColor;
 
 
 
@@ -152,6 +152,7 @@ vec4 calculateSpotLight(){
 	float specular = phong * u_ambient_light;
 
 	//caulculate the intensity of the position on angle to the center of the light.
+	//we are using a vector poiting dowards, so we can have a proper effec of spotlight
 	float angle = dot(vec3(0.0f, -1.0f, 0.0f), -v_s);
 	float inten = clamp((angle - outerCone) / (innerCone - outerCone), 0.0f, 1.0f);
 
@@ -178,5 +179,7 @@ void main()
 	
 	
 	//FragColor =  calculateDirectionLight();
+	
 	FragColor =   calculateCombinedLight();
+	//FragColor =   calculateCombinedLight() + calculateDirectionLight();
 }

@@ -45,5 +45,5 @@ void main()
 	// Assigns the texture coordinates from from the vertex data to the uv_coordiantes
 	uv_coordinates_tex = aTex;
 	// assig the normal to the normal for the fragment shader
-	Normal = aNormal;
+	Normal = vec3(model * vec4(aNormal, 1.0f));
 }
